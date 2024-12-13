@@ -1,0 +1,61 @@
+{
+    "db_menplus": {
+      "tables": [
+        {
+          "name": "admin",
+          "columns": {
+            "user": "varchar(50)",
+            "contraseña": "varchar(50)"
+          }
+        },
+        {
+          "name": "users",
+          "columns": {
+            "user": "varchar(50)",
+            "cedula": "varchar(100)",
+            "contraseña": "varchar(50)"
+          }
+        },
+        {
+          "name": "clientes",
+          "columns": {
+            "id_cliente": "int auto_increment",
+            "nombre": "varchar(100)",
+            "apellido": "varchar(100)",
+            "dirección": "varchar(200)",
+            "telefono": "varchar(100)",
+            "correo": "varchar(100)"
+          }
+        },
+        {
+          "name": "productos",
+          "columns": {
+            "id_producto": "int auto_increment",
+            "codigo": "int(20)",
+            "nombre": "varchar(100)",
+            "precio": "decimal(10,2)",
+            "color": "varchar(50)",
+            "cantidad": "int"
+          }
+        },
+        {
+          "name": "venta",
+          "columns": {
+            "id_venta": "int",
+            "n_cliente": "varchar(50)",
+            "n_apellido": "varchar(50)",
+            "dirección": "varchar(100)",
+            "cedula": "int(10)",
+            "fecha": "date",
+            "n_productos": "varchar(100)",
+            "color": "varchar(50)",
+            "cantidad": "int",
+            "precio": "float(10,2)",
+            "total": "decimal(10,2)"
+          }
+         
+        }
+      ]
+    }
+  }
+  
