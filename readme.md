@@ -1,4 +1,10 @@
 ## Sistema de Facturacion para una tienda de ropa
 
-Tecnologias usadas para este sistema son Python Flask con MongoDB
+# Tecnologias usadas
+1. - Python Flask 
+2. - MongoDB
+3. - Bootstrap
+4. - Jquery
+
+
 

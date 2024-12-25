@@ -22,6 +22,7 @@
             "id_cliente": "int auto_increment",
             "nombre": "varchar(100)",
             "apellido": "varchar(100)",
+            "cedula":"varchar(100)",
             "dirección": "varchar(200)",
             "telefono": "varchar(100)",
             "correo": "varchar(100)"
@@ -35,6 +36,7 @@
             "nombre": "varchar(100)",
             "precio": "decimal(10,2)",
             "color": "varchar(50)",
+            "img" : "varchar(100)",
             "cantidad": "int"
           }
         },

@@ -1,0 +1,77 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    background-image: url('uno.jpg'); /* Fondo para toda la página */
+    background-size: cover;
+    background-position: center;
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    padding: 0 50px;
+}
+.left-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.right-section {
+    flex: 1;
+    background-color: #4F67AF;
+    background-image: url('ruta/a/tu/imagen.jpg'); /* Fondo para la sección derecha */
+    background-size: cover;
+    background-position: center;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.right-section h2 {
+    color: white;
+    margin-bottom: 20px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    color: white;
+    display: block;
+    margin-bottom: 5px;
+}
+.form-group input {
+    width: 90%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+.login-button {
+    width: 20%;
+    padding: 10px;
+    background-color: white;
+    color: #00bfff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.login-button:hover {
+    background-color: #e0e0e0;
+}
+.contact-info {
+    margin-top: 20px;
+    color: white;
+}
+.contact-info p {
+    margin: 5px 0;
+}
+.contact-info a {
+    color: white;
+    text-decoration: none;
+}
+.contact-info a:hover {
+    text-decoration: underline;
+}

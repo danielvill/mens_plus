@@ -16,6 +16,7 @@ create table clientes(
     id_cliente int auto_increment,
     nombre varchar(100),
     apellido varchar(100),
+    cedula varchar(15),
     dirección varchar(200),
     telefono varchar(100),
     correo varchar(100),
@@ -28,6 +29,7 @@ create table productos(
     nombre varchar(100) -- debe incluir la talla camisa manga largar tallaXXL
     precio decimal(10,2),
     color varchar(50),
+    img varchar(100),
     cantidad int,
     PRIMARY KEY (id_producto)
 )
