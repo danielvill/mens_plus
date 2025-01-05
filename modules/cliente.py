@@ -1,6 +1,6 @@
 class Cliente:
-    def __init__(self,id_cliente,nombre,apellido,cedula,direccion,telefono,correo):
-        self.id_cliente=id_cliente
+    def __init__(self,nombre,apellido,cedula,direccion,telefono,correo):
+        
         self.nombre=nombre
         self.apellido=apellido
         self.cedula=cedula  
@@ -10,7 +10,7 @@ class Cliente:
         
     def ClienteDBCollection(self):
         return{
-            "id_cliente": self.id_cliente,
+            
             "nombre": self.nombre,
             "apellido": self.apellido,
             "cedula": self.cedula,

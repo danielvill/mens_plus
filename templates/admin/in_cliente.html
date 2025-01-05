@@ -4,39 +4,53 @@
     <div id="page-inner">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="page-head-line">Ingresar Clientes</h1>
+                <h1 class="page-head-line animate__animated animate__backInLeft">
+                    Ingresar Clientes
+                </h1>
                 </h1>
             </div>
         </div>
         <!-- /. ROW  -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     Llenar el formulario
                 </div>
-                <div class="panel-body">
-                    <form role="form">
+                <div class="panel-body animate__animated animate__backInLeft">
+                    <form action="/admin/in_cliente" method="post">
                         <div class="form-group">
-                            <label>Nombre del cliente</label>
+                            <label >Nombre del cliente</label>
                             <input class="form-control" name="nombre" type="text">
                         </div>
                         <div class="form-group">
-                            <label>Apellido</label>
+                            <label >Apellido</label>
                             <input class="form-control" name="apellido" type="text">
                         </div>
+                        <div class="form-group">
+                            <label >Cedula</label>
+                            <input class="form-control" name="cedula" type="number" oninput="limitarEntrada()">
+                        </div>
+                        
                         <div class="form-group">
                             <label>Direccion</label>
                             <input class="form-control" name="direccion" type="text">
                         </div>
                         <div class="form-group">
-                            <label>Telefono</label>
+                            <label>Celular</label>
                             <input class="form-control" name="telefono" type="text">
                         </div>
                         <div class="form-group">
                             <label>Correo</label>
                             <input class="form-control" name="correo" type="email">
                         </div>
-                        <button type="submit" class="btn btn-info">Guardar</button>
+                        <button type="submit" class="btn btn-info ">Guardar</button>
                     </form>
                 </div>
             </div>
@@ -45,4 +59,5 @@
     </div>
     <!-- /. PAGE INNER  -->
 </div>
+<script src="/static/assets/js/validaciones/user.js"></script>
 {% endblock %}

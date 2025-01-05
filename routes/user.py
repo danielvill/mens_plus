@@ -4,7 +4,6 @@ from modules.user import User
 from pymongo import MongoClient
 
 db = dbase()
-
 user = Blueprint('user', __name__)
 
 
@@ -27,17 +26,21 @@ def aduser():
         exist_contraseña = usere.find_one ({"contraseña":contraseña})
 
         if exist_cedula:
-            return redirect(url_for('user.aduser',message ="La cedula ya existe"))
+            flash("La cedula ya existe")
+            return redirect(url_for('user.aduser'))
         elif exist_use:
-            return redirect(url_for('user.aduser',message ="El usuario ya existe"))
+            flash("El usuario ya existe")
+            return redirect(url_for('user.aduser'))
         elif exist_contraseña:
-            return redirect(url_for('user.aduser',message ="La contraseña ya existe"))
+            flash("La contraseña ya existe")
+            return redirect(url_for('user.aduser'))
         else:
             useri = User(use,cedula,contraseña)
             usere.insert_one(useri.UserDBCollection())
-            return redirect(url_for('user.aduser', message="Enviado a la base de datos"))
+            flash("Enviado a la base de datos")
+            return redirect(url_for('user.aduser'))
     else:
-        return render_template('admin/in_user.html',message=request.args.get('message'))
+        return render_template('admin/in_user.html')
     
 # Editar usuario
 @user.route('/edit_us/<string:edaduser>', methods=['GET', 'POST'])#
@@ -49,19 +52,19 @@ def edit_user(edaduser):
     contraseña = request.form["contraseña"]
 
     if user and cedula and contraseña:
-        user.updateone({"user": user , "cedula":cedula, "contraseña":contraseña})
-        flash("Usuario " + user + "con cedula " + cedula + "Actualizado correctamente")
-        return redirect(url_for('user.aduser'))
+        use.update_one ({'cedula' : edaduser},{"$set" :{"user": user , "cedula":cedula, "contraseña":contraseña}})
+        flash("Usuario " + user + " con cedula " + cedula + " Actualizado correctamente")
+        return redirect(url_for('user.v_user'))
     else:
         return render_template("admin/user.html")
 
 # Eliminar usuario
-@user.route('/delete_us/<string:eliaduser>')
+@user.route('/delete_user/<string:eliaduser>')
 def delete_user(eliaduser):
     user = db["user"]
-    user.delete_one({"user":eliaduser})
-    flash("Usuario " + eliaduser + " eliminado correctamente")
-    return redirect(url_for('user.aduser'))
+    user.delete_one({"cedula":eliaduser})
+    flash("Usuario eliminado correctamente " )
+    return redirect(url_for('user.v_user'))
 
 # Visualizar usuario
 @user.route("/admin/user")

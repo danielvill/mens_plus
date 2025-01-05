@@ -6,6 +6,10 @@ db = dbase()
 
 cliente = Blueprint('cliente', __name__)
 
+
+# Ingreso con un Id unico
+
+
 @cliente.route('/admin/in_cliente',methods=['GET','POST'])
 def adcli():
     if 'username' not in session:
@@ -22,36 +26,65 @@ def adcli():
         telefono = request.form['telefono']
         correo = request.form['correo']
 
-        exist_nombre = cliente.find_one({"nombre": nombre})
-        exist_apellido = cliente.find_one({"apellido":apellido})
         exist_cedula = cliente.find_one({"cedula": cedula})
-        exist_direccion = cliente.find_one({"direccion": direccion})
         exist_telefono = cliente.find_one({"telefono": telefono})
         exist_correo = cliente.find_one({"correo": correo})
 
-        if exist_nombre:
-            return redirect(url_for('cliente.adcli',message ="El nombre ya existe"))
-        elif exist_apellido:
-            return redirect(url_for('cliente.adcli',message ="El apellido ya existe"))
-        elif exist_cedula:
-            return redirect(url_for('cliente.adcli',message ="La cedula ya existe"))
-        elif exist_direccion:
-            return redirect(url_for('cliente.adcli',message ="La dirección ya existe"))
+        if exist_cedula:
+            flash("La cedula ya existe")
+            return redirect(url_for('cliente.adcli'))
         elif exist_telefono:
-            return redirect(url_for('cliente.adcli',message ="El telefono ya existe"))
+            flash("El celular ya existe")
+            return redirect(url_for('cliente.adcli'))
         elif exist_correo:
-            return redirect(url_for('cliente.adcli',message ="El correo ya existe"))
+            flash("El correo ya existe")
+            return redirect(url_for('cliente.adcli'))
         else:
-            client = Cliente(None, nombre, apellido, cedula, direccion, telefono, correo)
+            client = Cliente( nombre, apellido, cedula, direccion, telefono, correo)
             cliente.insert_one(client.ClienteDBCollection())
-            return redirect(url_for('cliente.adcli', message="Enviado a la base de datos"))
+            flash("Enviado a la base de datos")
+            return redirect(url_for('cliente.adcli'))
     else:
         return render_template('admin/in_cliente.html',message=request.args.get('message'))
         
+@cliente.route('/edit_cli/<string:edacli>', methods=['GET', 'POST'])#
+def edit_cli(edacli):
+    cliente = db['cliente']
+    nombre = request.form["nombre"]
+    apellido = request.form["apellido"]
+    cedula = request.form['cedula']
+    direccion = request.form["direccion"]
+    telefono = request.form["telefono"]
+    correo = request.form['correo']
+    
+    if nombre and apellido  and cedula and direccion and telefono and correo:
+        cliente.update_one({'cedula' : edacli}, {'$set' : {'nombre' : nombre, 'apellido' : apellido, 'cedula' : cedula ,"direccion" :direccion , "telefono" : telefono , "correo" : correo}})
+        flash("Editado correctamente ")
+        return redirect(url_for('cliente.v_user'))
+    else:
+        return render_template('admin/cliente.html')
 
+# * Eliminar cliente
 
+@cliente.route('/delete_cli/<string:eliacli>')
+def delete_cli(eliacli):
+    cliente = db["cliente"]
+    documento =  cliente.find_one({"cedula":eliacli})
+    nombre = documento["nombre"]
+    apellido = documento["apellido"]
+    cedula = documento["cedula"]
+    cliente.delete_one({"cedula":eliacli})
+    flash("Cliente  "+ nombre +" "+ apellido +" con cedula " + cedula  + " eliminado correctamente") 
+    return redirect(url_for('cliente.v_cli'))
 
-
+# Visualizar cliente
+@cliente.route("/admin/cliente")
+def v_cli():
+    if 'username' not in session:
+        flash("Inicia sesion con tu usuario y contraseña")
+        return redirect(url_for('cliente.index'))
+    cliente = db['cliente'].find()
+    return render_template("admin/cliente.html", cliente=cliente)
 
 
         

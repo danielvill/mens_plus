@@ -1,0 +1,14 @@
+/* Define the animation */
+@keyframes hoverAnimation {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.1);
+    }
+}
+
+/* Apply the animation on hover */
+li:hover {
+    animation: hoverAnimation 0.3s forwards;
+}

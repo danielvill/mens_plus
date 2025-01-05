@@ -1,5 +1,5 @@
 class Venta:
-    def __init__(self,id_venta,n_cliente,n_apellido,direccion,cedula,fecha,n_productos,color,cantidad,precio,total):
+    def __init__(self,id_venta,n_cliente,n_apellido,direccion,cedula,fecha,n_productos,color,cantidad,precio,resultado,total):
         self.id_venta=id_venta
         self.n_cliente=n_cliente
         self.n_apellido=n_apellido
@@ -10,6 +10,7 @@ class Venta:
         self.color=color
         self.cantidad=cantidad
         self.precio=precio
+        self.resultado=resultado
         self.total=total
 
         
@@ -25,5 +26,6 @@ class Venta:
             'color': self.color,
             'cantidad': self.cantidad,
             'precio': self.precio,
+            'resultado': self.resultado,
             'total': self.total
         }

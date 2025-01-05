@@ -1,45 +1,115 @@
 {% extends "admin/layout.html" %}
 {% block content %}
-{% extends "admin/layout.html" %}
-{% block content %}
 <div id="page-wrapper">
     <div id="page-inner">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="page-head-line">Ingresar Venta</h1> 
+                <h1 class="page-head-line animate__animated animate__backInLeft">Ingresar Venta</h1>
                 </h1>
             </div>
         </div>
         <!-- /. ROW  -->
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+        <div class="col-md-12 col-sm-12 col-xs-12">
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     Llenar el formulario
                 </div>
-                <div class="panel-body">
-                    <form role="form">
+                <div class="panel-body animate__animated animate__backInLeft">
+                    <form action="/admin/in_venta"  role="form" method="post" id="dynamic-form">
                         <div class="form-group">
                             <label>Nombre del cliente</label>
-                            <input class="form-control" name="n_cliente" type="text">
+                            <input class="form-control nombre" name="n_cliente" type="text" readonly>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" hidden >
                             <label>Apellido</label>
-                            <input class="form-control" name="n_apellido" type="text">
+                            <input class="form-control apellido" name="n_apellido" type="text">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group"hidden >
                             <label>Direccion</label>
-                            <input class="form-control" name="direccion" type="text">
+                            <input class="form-control direccion" name="direccion" type="text">
                         </div>
                         <div class="form-group">
                             <label>cedula</label>
-                            <input class="form-control" name="cedula" type="text">
+                            <input class="form-control cedula" name="cedula" type="text" readonly>
                         </div>
+                        <div>
+                            <button type="button" class="but1  btn-primary">Cargar cliente</button>
+                        </div>
+                        <br>
                         <div class="form-group">
                             <label>Fecha</label>
                             <input class="form-control" name="fecha" type="date">
                         </div>
+                        <!-- Esta parte del codigo es para crear varios inputs -->
+                        <div id="product-section" class="row " >
+                            <div class="col-md-3">
+                                <div class="form-group "hidden  >
+                                    <label>Producto</label>
+                                    <input class="form-control p_nombre" name="n_productos" type="text" >
+                                </div>
+                            </div>
+                            <div class="col-md-3" hidden>
+                                <div class="form-group product-section">
+                                    <label>Color</label>
+                                    <input class="form-control color" name="color" type="text">
+                                </div>
+                            </div>
+                            <div class="col-md-3" hidden >
+                                <div class="form-group">
+                                    <label>BD</label>
+                                    <input class="form-control cantidad" name="can" type="number">
+                                </div>
+                            </div>
+                            <div class="col-md-3" hidden >
+                                <div class="form-group">
+                                    <label>Cantidad</label>
+                                    <input class="form-control" name="cantidad" type="number">
+                                </div>
+                            </div>
+                            <div class="col-md-3"hidden >
+                                <div class="form-group">
+                                    <label>Precio</label>
+                                    <input class="form-control precio" name="precio" type="number">
+                                </div>
+                            </div>
+                            <div class="col-md-3"hidden >
+                                <div class="form-group">
+                                    <label>Resultado</label>
+                                    <input class="form-control" name="resultado" type="number" >
+                                </div>
+                            </div>
+                            <div class="col-md-3" hidden >
+                                <button type="button" class="btn btn-danger delete-product">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </button>
+                                <button type="button" class="btn btn-primary but2">
+                                    <i class="glyphicon glyphicon-list-alt"></i>
+                                </button>
+                            </div>
+                            
+                        </div>
+                        <!-- Aqui termina el codigo  -->
+                        <br>
+                        <div class="form-group">
+                            <label>Total</label>
+                            <input class="form-control" name="total" type="number" readonly>
+                        </div>
+
+                        <button type="button" class="btn btn-success" id="add-product-btn"><i
+                                class="glyphicon glyphicon-plus"></i></button>
                         <button type="submit" class="btn btn-info">Guardar</button>
+
                     </form>
+
                 </div>
             </div>
         </div>
@@ -47,5 +117,74 @@
     </div>
     <!-- /. PAGE INNER  -->
 </div>
-{% endblock %}
+
+<div class="mosecliente">
+    <table class="table table-bordered table-hover" id="myTable">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Cedula</th>
+                <th>Direccion</th>
+                <th>Selector</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in cliente %}
+            <tr>
+                <td class="valor1">
+                    {{ cliente.nombre }}
+                </td>
+                <td class="valor2">
+                    {{ cliente.apellido }}
+                </td>
+                <td class="valor3">
+                    {{ cliente.cedula }}
+                </td>
+                <td class="valor4">
+                    {{ cliente.direccion }}
+                </td>
+                <td>
+                    <button type="button">Seleccionar</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="moseproducto">
+    <table class="table table-bordered table-hover" id="myTable2">
+        <thead>
+            <tr>
+                <th>Nombre producto</th>
+                <th>Color</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Selector</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in producto %}
+            <tr>
+                <td class="var1">
+                    {{producto.nombre}}
+                </td>
+                <td class="var2">
+                    {{producto.color}}
+                </td>
+                <td class="var3">
+                    {{producto.cantidad}}
+                </td>
+                <td class="var4">
+                    {{producto.precio}}
+                </td>
+                <td>
+                    <button type="button">Seleccionar</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script src="/static/assets/js/admin/in_venta.js"></script>
 {% endblock %}

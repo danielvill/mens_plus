@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura Casa Rica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .header {
+            background-color: #8bc6c6;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+        .header p {
+            margin: 5px 0;
+        }
+        .details {
+            margin: 20px 0;
+        }
+        .details p {
+            margin: 5px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #dddddd;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .total {
+            text-align: right;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MENPLUS</h1>
+            <p>Tienda de Ropa</p>
+        </div>
+        <div class="details">
+            <p><strong>FACTURA:</strong> {{ cliente.id_venta }}</p>
+            <p><strong>Nombre Cliente: </strong>{{ cliente.n_cliente }}</p>
+            <p><strong>Apellido Cliente:</strong>{{ cliente.n_apellido }}</p>
+            <p><strong>Direccion</strong>{{ cliente.direccion }} </p>
+            <p><strong>Cedual o Ruc</strong>{{ cliente.cedula }}</p>
+            <p><strong>Fecha</strong> {{ cliente.fecha }}</p>
+
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre Productos</th>
+                    <th>Color</th>
+                    <th>Cantidad</th>
+                    <th>Precio $</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in cliente.productos %}
+                <tr>
+                    <td>
+                        {{ producto.n_producto }}
+                    </td>
+                    <td>
+                        {{ producto.color }}
+                    </td>
+                    <td>
+                        {{ producto.cantidad }}
+                    </td>
+                    <td>
+                        {{ producto.precio }}
+                    </td>
+                    <td>
+                        {{ producto.resultado }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="total">
+            <p><strong>Subtotal:</strong> $798.00</p>
+            <p><strong>Tarifa de envío:</strong> $190.00</p>
+            <p><strong>Total:</strong> {{ cliente.total }}</p>
+        </div>
+    </div>
+</body>
+</html>

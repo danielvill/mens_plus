@@ -22,6 +22,7 @@ from jinja2 import Environment, FileSystemLoader# pip install Flask Jinja2
 db = dbase()
 app = Flask(__name__)
 app.secret_key = 'menplus105'
+app.config['UPLOAD_FOLDER'] = 'D:/Sistema men_plus/static/assets/img'
 
 
 

@@ -4,25 +4,32 @@
     <div id="page-inner">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="page-head-line">Ingresar Productos</h1>
+                <h1 class="page-head-line animate__animated animate__backInLeft" >Ingresar Productos</h1>
                 </h1>
             </div>
         </div>
         <!-- /. ROW  -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     Llenar el formulario
                 </div>
-                <div class="panel-body">
-                    <form role="form">
+                <div class="panel-body animate__animated animate__backInLeft">
+                    <form action="/admin/in_producto"  method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>Nombre del Producto</label>
                             <input class="form-control" name="nombre" type="text">
                         </div>
                         <div class="form-group">
                             <label>Precio</label>
-                            <input class="form-control" name="precio" type="text">
+                            <input class="form-control" name="precio" type="number">
                         </div>
                         <div class="form-group">
                             <label>Color</label>
@@ -30,7 +37,7 @@
                         </div>
                         <div class="form-group">
                             <label>Imagen</label>
-                            <input class="form-control" name="img" type="file">
+                            <input class="form-control" name="imagen" type="file">
                         </div>
                         <div class="form-group">
                             <label>Cantidad</label>
@@ -45,4 +52,5 @@
     </div>
     <!-- /. PAGE INNER  -->
 </div>
+<script src="/static/assets/js/validaciones/producto.js"></script>
 {% endblock %}
