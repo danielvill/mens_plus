@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Factura Casa Rica</title>
+    <title>Factura Menplus</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -65,12 +65,12 @@
             <p>Tienda de Ropa</p>
         </div>
         <div class="details">
-            <p><strong>FACTURA:</strong> {{ cliente.id_venta }}</p>
-            <p><strong>Nombre Cliente: </strong>{{ cliente.n_cliente }}</p>
-            <p><strong>Apellido Cliente:</strong>{{ cliente.n_apellido }}</p>
-            <p><strong>Direccion</strong>{{ cliente.direccion }} </p>
-            <p><strong>Cedual o Ruc</strong>{{ cliente.cedula }}</p>
-            <p><strong>Fecha</strong> {{ cliente.fecha }}</p>
+            <p><strong>FACTURA:</strong>  &nbsp; {{ cliente.id_venta }}</p>
+            <p><strong>Nombre:  </strong> &nbsp; {{ cliente.n_cliente }}</p>
+            <p><strong>Apellido: </strong> &nbsp; {{ cliente.n_apellido }}</p>
+            <p><strong>Direccion: </strong> &nbsp; {{ cliente.direccion }} </p>
+            <p><strong>Cedula: </strong> &nbsp; {{ cliente.cedula }}</p>
+            <p><strong>Fecha: </strong> &nbsp;  {{ cliente.fecha }}</p>
 
         </div>
         <table>
@@ -106,9 +106,7 @@
             </tbody>
         </table>
         <div class="total">
-            <p><strong>Subtotal:</strong> $798.00</p>
-            <p><strong>Tarifa de envío:</strong> $190.00</p>
-            <p><strong>Total:</strong> {{ cliente.total }}</p>
+            <p ><h1>Total:  {{ cliente.productos[0].total }}</h1></p>
         </div>
     </div>
 </body>

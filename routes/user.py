@@ -26,18 +26,18 @@ def aduser():
         exist_contraseña = usere.find_one ({"contraseña":contraseña})
 
         if exist_cedula:
-            flash("La cedula ya existe")
+            flash("La cedula ya existe" ,"danger")
             return redirect(url_for('user.aduser'))
         elif exist_use:
-            flash("El usuario ya existe")
+            flash("El usuario ya existe"  ,"danger")
             return redirect(url_for('user.aduser'))
         elif exist_contraseña:
-            flash("La contraseña ya existe")
+            flash("La contraseña ya existe","danger")
             return redirect(url_for('user.aduser'))
         else:
             useri = User(use,cedula,contraseña)
             usere.insert_one(useri.UserDBCollection())
-            flash("Enviado a la base de datos")
+            flash("Enviado a la base de datos","success")
             return redirect(url_for('user.aduser'))
     else:
         return render_template('admin/in_user.html')

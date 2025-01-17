@@ -50,12 +50,12 @@ def adpro():
         color = request.form['color']
         cantidad = request.form['cantidad']
 
-        exist_nombre = producto.find_one({"nombre": nombre})
+        exist_nombre_color = producto.find_one({"nombre": nombre, "color": color})
 
-        if exist_nombre:
-            flash("El nombre del producto ya existe")
+        if exist_nombre_color:
+            flash("El nombre del producto y el color ya existen", "danger")
             return redirect(url_for('producto.adpro'))
-        
+
         else:
             if 'imagen' not in request.files:
                 flash('No file part')
@@ -72,7 +72,7 @@ def adpro():
             
             produc = Producto(id_producto, nombre, precio, color, imagen_filename, cantidad)
             producto.insert_one(produc.ProductoDBCollection())
-            flash("Producto agregado correctamente")
+            flash("Producto agregado correctamente" , "success")
             return redirect(url_for('producto.adpro'))
 
     else:
@@ -116,14 +116,14 @@ def edit_pro(edipro):
                     "cantidad": cantidad,
                     "imagen": imagen_filename
                 }})
-                flash("Producto " + nombre + " actualizado correctamente")
+                flash("Producto " + nombre + " actualizado correctamente" ,"success")
                 return redirect(url_for('producto.v_product'))
             else:
                 flash("Todos los campos son obligatorios")
                 return redirect(url_for('producto.edit_pro', edipro=edipro))
         except Exception as e:
             print(e)
-            flash("Ha ocurrido un error")
+            flash("Ha ocurrido un error" , "danger")
             return redirect(url_for('producto.edit_pro', edipro=edipro))
 
     return render_template('admin/edit_pro.html', producto=producto_existente)
@@ -136,9 +136,9 @@ def delete_pr(eliadpro):
     if documento:
         nombre = documento["nombre"]
         producto.delete_one({"id_producto": eliadpro})
-        flash("Producto " + nombre + " eliminado correctamente")
+        flash("Producto " + nombre + " eliminado correctamente" , "success")
     else:
-        flash("Producto no encontrado")
+        flash("Producto no encontrado" , "danger")
     return redirect(url_for('producto.v_product'))
 
 # Visualizar producto

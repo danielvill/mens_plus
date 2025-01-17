@@ -1,29 +1,33 @@
 {% extends "admin/layout.html" %}
 {% block content %}
+
+
 <div id="page-wrapper">
     <div id="page-inner">
         <div class="row">
-            <div class="col-md-12"> 
+            <div class="col-md-12">
                 <h1 class="page-head-line animate__animated animate__backInLeft">Ingresar Usuario</h1>
                 </h1>
             </div>
         </div>
-
         <!-- /. ROW  -->
-        {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-        <div class="alert alert-danger">
-            {{ messages[0] }}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
         </div>
+        {% endfor %}
         {% endif %}
         {% endwith %}
+
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="panel panel-info">
                 <div class="panel-heading">
                     Llenar el formulario
                 </div>
-                <div class="panel-body animate__animated animate__backInLeft" >
-                    <form  action="/admin/in_user" method="post">
+                <div class="panel-body animate__animated animate__backInLeft">
+                    <form action="/admin/in_user" method="post">
                         <div class="form-group">
                             <label>Nombre de Usuario</label>
                             <input class="form-control" name="user" type="text">

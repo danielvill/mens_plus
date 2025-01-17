@@ -9,11 +9,13 @@
             </div>
         </div>
         <!-- /. ROW  -->
-        {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-        <div class="alert alert-danger">
-            {{ messages[0] }}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
         </div>
+        {% endfor %}
         {% endif %}
         {% endwith %}
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -25,15 +27,24 @@
                     <form action="/admin/in_producto"  method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>Nombre del Producto</label>
-                            <input class="form-control" name="nombre" type="text">
+                            <input class="form-control" name="nombre" id="nombre" type="text">
                         </div>
                         <div class="form-group">
-                            <label>Precio</label>
-                            <input class="form-control" name="precio" type="number">
+                            <label>Precio (debe incluir iva)</label>
+                            <input class="form-control" name="precio" id="precio" type="text">
                         </div>
                         <div class="form-group">
                             <label>Color</label>
-                            <input class="form-control" name="color" type="text">
+                            <select name="color" id="color" class="form-control">
+                                <option value="Amarrillo">Amarrillo</option>
+                                <option value="Azul">Azul</option>
+                                <option value="Rojo">Rojo</option>
+                                <option value="Verde">Verde</option>
+                                <option value="Naranja">Naranja</option>
+                                <option value="Morado">Morado</option>
+                                <option value="Café">Café</option>
+                                <option value="Gris">Gris</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Imagen</label>
@@ -43,7 +54,7 @@
                             <label>Cantidad</label>
                             <input class="form-control" name="cantidad" type="number">
                         </div>
-                        <button type="submit" class="btn btn-info">Guardar</button>
+                        <button type="submit" id="submitBtn" class="btn btn-info">Guardar</button>
                     </form>
                 </div>
             </div>
@@ -53,4 +64,5 @@
     <!-- /. PAGE INNER  -->
 </div>
 <script src="/static/assets/js/validaciones/producto.js"></script>
+
 {% endblock %}

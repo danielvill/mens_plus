@@ -5,7 +5,7 @@ MONGO_URI = 'mongodb://localhost:27017'
 def Conexion():
     try:
         client = MongoClient(MONGO_URI)
-        db = client["meplus"]
+        db = client["menplus"]
         print("Conexión a MongoDB exitosa.")
     except ConnectionError:
         print('Error de conexión con la bdd')

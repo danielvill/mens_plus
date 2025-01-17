@@ -8,8 +8,6 @@ cliente = Blueprint('cliente', __name__)
 
 
 # Ingreso con un Id unico
-
-
 @cliente.route('/admin/in_cliente',methods=['GET','POST'])
 def adcli():
     if 'username' not in session:
@@ -31,18 +29,18 @@ def adcli():
         exist_correo = cliente.find_one({"correo": correo})
 
         if exist_cedula:
-            flash("La cedula ya existe")
+            flash("La cedula ya existe" , "danger")
             return redirect(url_for('cliente.adcli'))
         elif exist_telefono:
-            flash("El celular ya existe")
+            flash("El celular ya existe" ,"danger")
             return redirect(url_for('cliente.adcli'))
         elif exist_correo:
-            flash("El correo ya existe")
+            flash("El correo ya existe" , "danger")
             return redirect(url_for('cliente.adcli'))
         else:
             client = Cliente( nombre, apellido, cedula, direccion, telefono, correo)
             cliente.insert_one(client.ClienteDBCollection())
-            flash("Enviado a la base de datos")
+            flash("Enviado a la base de datos" , "success")
             return redirect(url_for('cliente.adcli'))
     else:
         return render_template('admin/in_cliente.html',message=request.args.get('message'))
@@ -59,13 +57,12 @@ def edit_cli(edacli):
     
     if nombre and apellido  and cedula and direccion and telefono and correo:
         cliente.update_one({'cedula' : edacli}, {'$set' : {'nombre' : nombre, 'apellido' : apellido, 'cedula' : cedula ,"direccion" :direccion , "telefono" : telefono , "correo" : correo}})
-        flash("Editado correctamente ")
-        return redirect(url_for('cliente.v_user'))
+        flash("Cliente  "+ nombre + " con  cedula " + cedula + " editado correctamente " , "success")
+        return redirect(url_for('cliente.v_cli'))
     else:
         return render_template('admin/cliente.html')
 
 # * Eliminar cliente
-
 @cliente.route('/delete_cli/<string:eliacli>')
 def delete_cli(eliacli):
     cliente = db["cliente"]
@@ -74,7 +71,7 @@ def delete_cli(eliacli):
     apellido = documento["apellido"]
     cedula = documento["cedula"]
     cliente.delete_one({"cedula":eliacli})
-    flash("Cliente  "+ nombre +" "+ apellido +" con cedula " + cedula  + " eliminado correctamente") 
+    flash("Cliente  "+ nombre +" "+ apellido +" con cedula " + cedula  + " eliminado correctamente" , "success") 
     return redirect(url_for('cliente.v_cli'))
 
 # Visualizar cliente
@@ -85,6 +82,3 @@ def v_cli():
         return redirect(url_for('cliente.index'))
     cliente = db['cliente'].find()
     return render_template("admin/cliente.html", cliente=cliente)
-
-
-        

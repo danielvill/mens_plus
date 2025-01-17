@@ -23,16 +23,14 @@ def get_next_sequence(name):
     )
     return result.get('seq')
 
-
-@venta.route("/admin/in_venta",methods=['GET','POST'])
+@venta.route("/admin/in_venta", methods=['GET', 'POST'])
 def adventa():
     if 'username' not in session:
         flash("Inicia sesion con tu usuario y contraseña")
         return redirect(url_for('cliente.index'))
-    # Este es el apartado para visualizar a los clientes y los productos 
+    
     cliente = db["cliente"].find()
     producto = db["producto"].find()
-
 
     if request.method == 'POST':
         id_venta = str(get_next_sequence('ventaId')).zfill(1)
@@ -44,7 +42,7 @@ def adventa():
         fecha = request.form["fecha"]
         
         # Recoger los productos
-
+        id_productos = request.form.getlist("id_producto")
         n_productos = request.form.getlist("n_productos")
         colores = request.form.getlist("color")
         cantidades = request.form.getlist("cantidad")
@@ -53,6 +51,7 @@ def adventa():
         totales = request.form.getlist("total")
         
         # Debugging
+        print("ID Productos:", id_productos)
         print("Productos:", n_productos)
         print("Colores:", colores)
         print("Cantidades:", cantidades)
@@ -63,6 +62,7 @@ def adventa():
         productos = []
         for i in range(len(n_productos)):
             producto = {
+                "id_producto": id_productos[i] if i < len(id_productos) else '',
                 "n_producto": n_productos[i] if i < len(n_productos) else '',
                 "color": colores[i] if i < len(colores) else '',
                 "cantidad": cantidades[i] if i < len(cantidades) else '',
@@ -87,12 +87,30 @@ def adventa():
         venta.insert_one(venta_documento)
         print("Documento de Venta:", venta_documento)
 
-        flash("Venta registrada con éxito")
+        # Actualizar las cantidades de los productos
+        for i in range(len(id_productos)):
+            id_producto = id_productos[i]
+            cantidad_vendida = cantidades[i]
+            
+            if cantidad_vendida:
+                cantidad_vendida = int(cantidad_vendida)
+                
+                # Obtener el producto de la base de datos
+                producto_db = db["producto"].find_one({"id_producto": id_producto})
+                if producto_db:
+                    nueva_cantidad = int(producto_db["cantidad"]) - cantidad_vendida
+                    # Actualizar la cantidad del producto en la base de datos
+                    db["producto"].update_one({"id_producto": id_producto}, {"$set": {"cantidad": str(nueva_cantidad)}})
+                    print(f"Producto {id_producto} actualizado. Nueva cantidad: {nueva_cantidad}")
+            else:
+                print(f"Cantidad no válida para el producto {id_producto}")
+
+        flash("Venta registrada con éxito y cantidades actualizadas","success")
         return redirect(url_for('venta.adventa'))
 
     else:
-        return render_template("admin/in_venta.html",cliente=cliente,producto=producto)
-    
+        return render_template("admin/in_venta.html", cliente=cliente, producto=producto)
+
 
 
 

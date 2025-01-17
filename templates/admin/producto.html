@@ -20,6 +20,7 @@
             <table class="table table-bordered table-hover" id="myTable">
                 <thead>
                     <tr>
+                        <th >Codigo</th>
                         <th>Nombre</th>
                         <th>Precio</th>
                         <th>Color</th>
@@ -31,6 +32,9 @@
                 <tbody>
                     {% for producto in producto %}
                     <tr>
+                        <td >
+                            {{producto.id_producto}}
+                        </td>
                         <td>
                             {{producto.nombre}}
                         </td>
@@ -42,8 +46,8 @@
                         </td>
                         <td>
                             <!-- Asegúrate de incluir la subcarpeta 'img' si es necesario -->
-                            <img src="{{ url_for('static', filename='assets/img/' + producto.imagen) }}" alt="Imagen de herramienta" width="100">
-                            {{producto.imagen}}
+                            <img src="{{ url_for('static', filename='assets/img/' + producto.imagen) }}" alt="Imagen de herramienta" width="200">
+                            
                         </td>                        
                         <td>
                             {{producto.cantidad}}
@@ -79,21 +83,30 @@
 <div id="editModal" title="Editar Producto">
     <form id="editForm" action="" method="post">
         <div class="form-group">
+            <div class="col" >
+                <label for="">Codigo de producto</label>
+                <input type="text" id="id_producto" name="id_producto" class="form-control"  readonly>
+            </div>
             <div class="col">
                 <label for="">Nombre</label>
                 <input type="text" id="nombre" name="nombre" class="form-control"  readonly>
             </div>
             <div class="col">
                 <label for="usuario">Precio</label>
-                <input type="number" id="precio" name="precio" class="form-control" readonly>
+                <input type="number" id="precio" name="precio" class="form-control" >
             </div>
             <div class="col">
                 <label for="usuario">Color</label>
                 <input type="text" id="color" name="color" class="form-control" readonly>
             </div>
+            <div class="col" hidden>
+                <label for="usuario">Imagen</label>
+                <input type="text" id="imagen" name="imagen" class="form-control" readonly>
+            </div>
+            
             <div class="col">
                 <label for="usuario">Cantidad</label>
-                <input type="text" id="cantidad" name="cantidad" class="form-control" readonly>
+                <input type="number" id="cantidad" name="cantidad" class="form-control" >
             </div>
             
         </div>
@@ -119,11 +132,13 @@
             var data = table.row(row).data();
             // Aquí puedes abrir el modal y llenar los campos del formulario con los datos del usuario
             // Por ejemplo:
-            $('#nombre').val(data[0]);
-            $('#precio').val(data[1]);
-            $('#color').val(data[2]);
-            $('#cantidad').val(data[3]);
-            $('#editForm').attr('action', '/edit_pro/' + data[1]); // Recuerda que en esta parte el 0 es la posicion selectora del codigo que estas usando en este caso es 0 ya que usas la cedula
+            $('#id_producto').val(data[0]);
+            $('#nombre').val(data[1]);
+            $('#precio').val(data[2]);
+            $('#color').val(data[3]);
+            $('#imagen').val(data[4]); // Esta es la posicion selectora del codigo que estas usando en este caso es 4 ya que usas la imagen
+            $('#cantidad').val(data[5]);
+            $('#editForm').attr('action', '/edit_pro/' + data[0]); // Recuerda que en esta parte el 0 es la posicion selectora del codigo que estas usando en este caso es 0 ya que usas la cedula
             $('#editModal').dialog('open');
         });
         // Inicializar el modal
