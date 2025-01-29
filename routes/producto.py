@@ -149,3 +149,14 @@ def v_product():
         return redirect(url_for('producto.index'))
     producto = db["producto"].find()
     return render_template('admin/producto.html', producto=producto)
+
+
+# Este es para agregar el resumen de los productos 
+@producto.route("/admin/resumen")
+def resumen():
+    if 'username' not in session:
+        flash("Inicia sesion con tu usuario y contraseña")
+        return redirect(url_for('producto.index'))
+    producto = db["producto"].find()
+    venta = db ["venta"].find()
+    return render_template('admin/resumen.html', producto=producto,venta=venta)

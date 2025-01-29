@@ -1,0 +1,116 @@
+{% extends "admin/layout.html" %}
+{% block content %}
+<div id="page-wrapper">
+    <div id="page-inner">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="page-head-line animate__animated animate__backInLeft">Resumenes</h1>
+                </h1>
+            </div>
+        </div>
+        <div class="animate__animated animate__backInLeft">
+            <!-- /. ROW  -->
+             <h2>Productos</h2>
+             <br>
+            <table class="table table-bordered table-hover" id="myTable">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in producto %}
+                    <tr>
+                        <td>
+                            {{producto.id_producto}}
+                        </td>
+                        <td>
+                            {{producto.nombre}}
+                        </td>                    
+                        <td class="cantidad">
+                            {{producto.cantidad}}
+                        </td>
+                        <td class="stock">
+                            <p></p>
+                        </td>
+                    </tr>
+                    </form>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="animate__animated animate__backInLeft">
+            <!-- /. ROW  -->
+             <h2>Ventas Individuales</h2>
+             <br>
+            <table class="table table-bordered table-hover" id="myTable2">
+                <thead>
+                    <tr>
+                        <th>Codigo venta</th>
+                        <th>Fecha de la venta</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for venta in venta %}
+                    <tr>
+                        <td>
+                            {{venta.id_venta}}
+                        </td>
+                        <td>
+                            {{venta.fecha}}
+                        </td>
+                        <td>
+                            {{venta.productos[0].total}}
+                        </td>                    
+                    </tr>
+                    </form>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+     $('#myTable').DataTable({
+            "language": {
+                "url": "/static/assets/js/Spanish.json"
+            }
+        });
+        var table = $('#myTable').DataTable();
+
+        $('#myTable2').DataTable({
+            "language": {
+                "url": "/static/assets/js/Spanish.json"
+            }
+        });
+        var table = $('#myTable2').DataTable();
+
+        $(document).ready(function() {
+
+    
+});
+document.addEventListener('DOMContentLoaded', function() {
+    const filas = document.querySelectorAll('#myTable tbody tr');
+    
+    filas.forEach(fila => {
+        const cantidad = fila.querySelector('.cantidad').innerText.trim();
+        const stock = fila.querySelector('.stock p');
+        
+        if (cantidad === '0') {
+            stock.innerText = 'Bajo Stock';
+        }
+    });
+});
+
+</script>
+
+
+{% endblock %}

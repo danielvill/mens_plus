@@ -18,6 +18,8 @@ from routes.user import user
 # El siguiente es para usar lo que es pug 
 from jinja2 import Environment, FileSystemLoader# pip install Flask Jinja2
 
+# * Un dato importante para descargar el pdf es que debe ser con el siguiente comando de node 
+#  * npm i html2pdf.js
 
 db = dbase()
 app = Flask(__name__)

@@ -36,8 +36,6 @@
                         </td>
                         <td>
                             <a href="{{ url_for('venta.v_cliente', id=venta._id) }}">
-
-                            
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-file-earmark-bar-graph-fill" viewBox="0 0 16 16">
                                 <path
@@ -52,4 +50,12 @@
         </div>
     </div>
 </div>
+<script>
+    $('#myTable').DataTable({
+            "language": {
+                "url": "/static/assets/js/Spanish.json"
+            }
+        });
+        var table = $('#myTable').DataTable();
+</script>
 {% endblock %}

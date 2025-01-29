@@ -1,8 +1,19 @@
-from flask import Blueprint, render_template, request, flash, session, redirect, url_for
+from flask import Blueprint, make_response,send_file, render_template, request, flash, session, redirect, url_for
 from controllers.database import Conexion as dbase
 from modules.venta import Venta
 from pymongo import MongoClient
+from flask import jsonify
 from bson import ObjectId
+from reportlab.pdfgen import canvas # *pip install reportlab este es para imprimir reportes
+from reportlab.lib.pagesizes import letter #* pip install reportlab 
+from reportlab.lib.units import inch
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.platypus import SimpleDocTemplate, Table, Paragraph, TableStyle, Spacer ,Image
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet ,ParagraphStyle
+import io
+
 db = dbase()
 
 venta = Blueprint('venta', __name__)
@@ -94,7 +105,7 @@ def adventa():
             
             if cantidad_vendida:
                 cantidad_vendida = int(cantidad_vendida)
-                
+            
                 # Obtener el producto de la base de datos
                 producto_db = db["producto"].find_one({"id_producto": id_producto})
                 if producto_db:
@@ -133,3 +144,63 @@ def v_cliente(id):
         return redirect(url_for('venta.index'))
     cliente = db['venta'].find_one({"_id": ObjectId(id)})
     return render_template("admin/v_cliente.html", cliente=cliente)
+
+
+
+# Nueva ruta para generar el PDF
+@venta.route("/admin/venta/<id>/pdf")
+def generar_pdf(id):
+    if 'username' not in session:
+        flash("Inicia sesión con tu usuario y contraseña")
+        return redirect(url_for('venta.index'))
+    
+    cliente = db['venta'].find_one({"_id": ObjectId(id)})
+    
+    if not cliente:
+        flash("Cliente no encontrado")
+        return redirect(url_for('venta.index'))
+    
+    # Crear el PDF en memoria
+    buffer = io.BytesIO()
+    c = canvas.Canvas(buffer, pagesize=letter)
+    width, height = letter
+    
+    # Título
+    c.setFont("Helvetica-Bold", 20)
+    c.drawCentredString(width / 2.0, height - 50, "MODAMENSPLUS")
+    
+    # Detalles del cliente
+    c.setFont("Helvetica", 12)
+    c.drawString(50, height - 100, f"FACTURA: {cliente['id_venta']}")
+    c.drawString(50, height - 120, f"Nombre: {cliente['n_cliente']}")
+    c.drawString(50, height - 140, f"Apellido: {cliente['n_apellido']}")
+    c.drawString(50, height - 160, f"Direccion: {cliente['direccion']}")
+    c.drawString(50, height - 180, f"Cedula: {cliente['cedula']}")
+    c.drawString(50, height - 200, f"Fecha: {cliente['fecha']}")
+    
+    # Tabla de productos
+    c.drawString(50, height - 240, "Nombre de los productos")
+    c.drawString(200, height - 240, "Color")
+    c.drawString(300, height - 240, "Cantidad")
+    c.drawString(400, height - 240, "Precio $")
+    c.drawString(500, height - 240, "Total")
+    
+    y = height - 260
+    for producto in cliente['productos']:
+        c.drawString(50, y, producto['n_producto'])
+        c.drawString(200, y, producto['color'])
+        c.drawString(300, y, str(producto['cantidad']))
+        c.drawString(400, y, str(producto['precio']))
+        c.drawString(500, y, str(producto['resultado']))
+        y -= 20
+    
+    # Total
+    c.setFont("Helvetica-Bold", 14)
+    c.drawString(50, y - 40, f"Total: {cliente['productos'][0]['total']}")
+    
+    c.showPage()
+    c.save()
+    
+    buffer.seek(0)
+    
+    return send_file(buffer, as_attachment=True, download_name=f'factura_{cliente["id_venta"]}.pdf', mimetype='application/pdf')

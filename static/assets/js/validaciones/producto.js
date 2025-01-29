@@ -1,6 +1,6 @@
 // Validacion si los campos estan vacios
- // Validación si los campos están vacíos
- document.querySelector('form').onsubmit = function(e) {
+// Validación si los campos están vacíos
+document.querySelector('form').onsubmit = function (e) {
     var inputs = this.querySelectorAll('input');
     var todosLlenos = true; // Asume que todos los campos están llenos
 
@@ -20,27 +20,41 @@
         });
         return;
     }
-
     // Validación del nombre del producto
     var nombre = $('#nombre').val();
-    var validSizes = ["XL", "S", "M"];
-    var isValid = validSizes.some(function(size) {
-        return nombre.includes(size);
+
+    // Definición de las tallas y productos
+    var productoTallas = {
+        'Camisa': ["XL", "S", "M","L","XXL"],
+        'Pantalon': ["32", "34", "36","38","40","42","44","46"]
+    };
+
+    // Determinación del producto y las tallas válidas
+    var producto = nombre.includes('Camisa') ? 'Camisa' :
+        nombre.includes('Pantalon') ? 'Pantalon' : null;
+
+    var talasValidas = producto ? productoTallas[producto] : [];
+
+    // Validación del nombre del producto según las tallas del producto
+    var isValid = talasValidas.some(function (talla) {
+        return nombre.includes(talla);
     });
 
-    if (!isValid) {
+    // Mensaje de error personalizado para cada producto
+    if (!isValid && producto) {
         e.preventDefault(); // Previene el envío del formulario
         Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'El nombre del producto debe incluir una de las siguientes tallas: XL, S, M',
+            text: `El nombre del ${producto} debe incluir una de las siguientes tallas: ${talasValidas.join(', ')}`
         });
         return;
     }
+
 };
 
 // No permitir valores negativos ni el singo +
-document.querySelector('input[name="precio"]').addEventListener('input', function(e) {
+document.querySelector('input[name="precio"]').addEventListener('input', function (e) {
     if (this.value < 0 || this.value.includes('+')) {
         e.preventDefault();
         Swal.fire({
@@ -53,7 +67,7 @@ document.querySelector('input[name="precio"]').addEventListener('input', functio
 });
 
 // No permitir valores negativos ni el singo +
-document.querySelector('input[name="cantidad"]').addEventListener('input', function(e) {
+document.querySelector('input[name="cantidad"]').addEventListener('input', function (e) {
     if (this.value < 0 || this.value.includes('+')) {
         e.preventDefault();
         Swal.fire({
@@ -66,7 +80,7 @@ document.querySelector('input[name="cantidad"]').addEventListener('input', funct
 });
 
 // que permita agregar punto en vez de coma al precio de productos
-document.querySelector('#precio').addEventListener('input', function(e) {
+document.querySelector('#precio').addEventListener('input', function (e) {
     var value = this.value;
     var regex = /^\d*\.?\d*$/;
 

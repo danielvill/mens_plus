@@ -11,14 +11,14 @@
     -webkit-box-align: center;
             align-items: center;
     overflow: hidden;
-    background: #5053A0;
+    background: #FBFAF8;
   }
   
   .rock {
     font-family: 'Montserrat', sans-serif;
-    font-size: 200px;
+    font-size: 100px;
     margin: 0;
-    color: #D4304B;
+    color: #252323;
     position: absolute;
     left: 50%;
     top: 50%;
