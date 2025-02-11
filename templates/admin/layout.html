@@ -49,7 +49,7 @@
     <script src="/static/assets/js/timemensaje.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.9.2/dist/html2pdf.bundle.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -64,15 +64,16 @@
                 </button>
                 <a class="navbar-brand " href="./resumen">MODAMENSPLUS</a>
             </div>
-
+            <form id="backupForm"  method="post" action="/crear_backup" onclick="submitForm()">
             <div class="header-right">
 
-                <a href="message-task.html" class="btn btn-info" title="New Message"><b>Backup </b><i
-                        class="fa fa-hdd-o fa-2x"></i></a>
+                    <button type="submit" class="btn btn-info"><b>Backup </b><i class="fa fa-hdd-o fa-2x"></i></button>
+                </form>
                 <a href="{{ url_for('logout') }}" class="btn btn-danger " title="Logout"><i
                         class="fa fa-sign-out fa-2x"></i></a>
-
             </div>
+
+
         </nav>
         <!-- /. NAV TOP  -->
         <nav class="navbar-default navbar-side" role="navigation">
@@ -94,7 +95,7 @@
 
 
                     <li>
-                        <a class="active-menu" href="./resumen"><i class="fa fa-dashboard "></i>Resumen</a>
+                        <a class="active-menu" href="./resumen" style="color: black;"><i class="fa fa-dashboard " ></i>Resumen</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-user "></i>Usuario <span class="fa arrow"></span></a>
@@ -159,7 +160,12 @@
         &copy; Menplus <a href="" target="_blank">Sistema de
             Facturacion</a>
     </div>
-
+<script>
+     function submitForm() {
+        // Aquí puedes agregar cualquier lógica adicional antes de enviar el formulario
+        document.getElementById('backupForm').submit();
+    }
+</script>
 
 </body>
 

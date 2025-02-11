@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Factura Modamensplus</title>
     <link href="/static/assets/css/bootstrap.css" rel="stylesheet" />
-    
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,7 +24,7 @@
         }
 
         .header {
-            background-color: #8bc6c6;
+            background-color: #242424;
             color: #ffffff;
             padding: 20px;
             text-align: center;
@@ -125,16 +125,55 @@
         </table>
         <div class="total">
             <p>
+            <h3 class="subtotal">
+                Subtotal :
+            </h3>
+            </p>
+            <p>
+            <h3 class="iva">
+                Iva :
+            </h3>
+            </p>
+            <p>
             <h1>Total: {{ cliente.productos[0].total }}</h1>
             </p>
         </div>
-        <a href="{{ url_for('venta.generar_pdf', id=cliente._id) }}" class="btn btn-info" style="background-color: #8BC6C6;">Generar pdf</a>
+        <a href="{{ url_for('venta.generar_pdf', id=cliente._id) }}" class="btn btn-info"
+            style="background-color: #8BC6C6;">Generar pdf</a>
+        <!-- ... tu código HTML existente ... -->
+
+        <form action="{{ url_for('venta.enviar_factura_correo', id=cliente['_id']) }}" method="GET"
+            style="display: inline;">
+            <button type="submit" class="btn btn-success">
+                Enviar PDF por correo
+            </button>
+        </form>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
     </div>
 </body>
 
-
 <script>
-  
+    // Obtener el valor total del HTML
+const totalElement = document.querySelector(".total h1");
+const totalValue = parseFloat(totalElement.textContent.replace("Total: ", ""));
+
+// Calcular el subtotal y el IVA
+const ivaPercentage = 0.12;
+const subtotal = totalValue / (1 + ivaPercentage);
+const iva = subtotal * ivaPercentage;
+
+// Mostrar el subtotal y el IVA en el HTML
+document.querySelector(".subtotal").textContent = `Subtotal: $${subtotal.toFixed(2)}`;
+document.querySelector(".iva").textContent = `IVA: $${iva.toFixed(2)}`;
+
 </script>
 
 </html>

@@ -92,7 +92,7 @@ body {
 .user-img-div {
     min-height: 140px;
     padding: 20px;
-    background-color: #4380B8;
+    background-color: #202020;
 }
 
     .user-img-div img {
@@ -108,7 +108,7 @@ body {
     }
 
 .active-menu {
-    background-color: #00CA79!important;
+    background-color: #FBFAF8!important;
 }
 .active-menu-top {
     background-color: #000!important;
@@ -184,7 +184,7 @@ body {
 }
 
 .navbar-cls-top {
-    background: #00CA79;
+    background: #FBFAF8;
     border-bottom: none;
 }
 
@@ -197,8 +197,9 @@ body {
     background: #000000;
 }
 
+/* Aqui se cambia el color de */
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-    background-color: #00CA79;
+    background-color: #FBFAF8;
 }
 
 .navbar-default .navbar-toggle {

@@ -13,11 +13,22 @@ from reportlab.platypus import SimpleDocTemplate, Table, Paragraph, TableStyle, 
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet ,ParagraphStyle
 import io
-
+from flask import Flask
 db = dbase()
+from mail_config import mail
+from flask_mail import Message
+# Importar mail después de definir el Blueprint
+
+
 
 venta = Blueprint('venta', __name__)
 
+mail = None
+
+# Función para inicializar mail
+def init_mail(mail_instance):
+    global mail
+    mail = mail_instance
 
 # Este codigo es para lo que es el ID
 def get_next_sequence(name): 
@@ -204,3 +215,111 @@ def generar_pdf(id):
     buffer.seek(0)
     
     return send_file(buffer, as_attachment=True, download_name=f'factura_{cliente["id_venta"]}.pdf', mimetype='application/pdf')
+
+
+
+# Función para obtener el correo del cliente
+def obtener_correo_cliente(cedula):
+    cliente = db['cliente'].find_one({"cedula": cedula})
+    if cliente:
+        return cliente.get('correo')
+    return None
+
+# Función para generar el PDF
+def generar_pdf_cliente(cliente):
+    buffer = io.BytesIO()
+    c = canvas.Canvas(buffer, pagesize=letter)
+    width, height = letter
+    
+    # Título
+    c.setFont("Helvetica-Bold", 20)
+    c.drawCentredString(width / 2.0, height - 50, "MODAMENSPLUS")
+    
+    # Detalles del cliente
+    c.setFont("Helvetica", 12)
+    c.drawString(50, height - 100, f"FACTURA: {cliente['id_venta']}")
+    c.drawString(50, height - 120, f"Nombre: {cliente['n_cliente']}")
+    c.drawString(50, height - 140, f"Apellido: {cliente['n_apellido']}")
+    c.drawString(50, height - 160, f"Direccion: {cliente['direccion']}")
+    c.drawString(50, height - 180, f"Cedula: {cliente['cedula']}")
+    c.drawString(50, height - 200, f"Fecha: {cliente['fecha']}")
+    
+    # Tabla de productos
+    c.drawString(50, height - 240, "Nombre de los productos")
+    c.drawString(200, height - 240, "Color")
+    c.drawString(300, height - 240, "Cantidad")
+    c.drawString(400, height - 240, "Precio $")
+    c.drawString(500, height - 240, "Total")
+    
+    y = height - 260
+    for producto in cliente['productos']:
+        c.drawString(50, y, producto['n_producto'])
+        c.drawString(200, y, producto['color'])
+        c.drawString(300, y, str(producto['cantidad']))
+        c.drawString(400, y, str(producto['precio']))
+        c.drawString(500, y, str(producto['resultado']))
+        y -= 20
+    
+    # Total
+    c.setFont("Helvetica-Bold", 14)
+    c.drawString(50, y - 40, f"Total: {cliente['productos'][0]['total']}")
+    
+    c.showPage()
+    c.save()
+    
+    buffer.seek(0)
+    return buffer
+
+# Función para enviar el correo con el PDF adjunto
+def enviar_correo_cliente(correo, pdf_buffer, nombre_cliente):
+    try:
+        msg = Message(
+            subject="Gracias por tu compra",
+            sender="tu_correo@example.com",  # Remitente
+            recipients=[correo],  # Destinatario
+            body=f"Hola {nombre_cliente},\n\nGracias por tu compra. Adjuntamos tu factura en PDF.\n\nSaludos,\nMODAMENSPLUS"
+        )
+        
+        # Adjuntar el PDF
+        msg.attach(
+            filename=f"factura_{nombre_cliente}.pdf",
+            content_type="application/pdf",
+            data=pdf_buffer.getvalue()
+        )
+        
+        # Enviar el correo
+        mail.send(msg)
+        return True
+    except Exception as e:
+        print(f"Error al enviar el correo: {str(e)}")
+        return False
+
+# Ruta para enviar el PDF por correo
+@venta.route("/admin/venta/<id>/enviar_correo")
+def enviar_factura_correo(id):
+    if 'username' not in session:
+        flash("Inicia sesión con tu usuario y contraseña")
+        return redirect(url_for('venta.index'))
+    
+    # Obtener los datos del cliente desde la colección venta
+    cliente = db['venta'].find_one({"_id": ObjectId(id)})
+    if not cliente:
+        flash("Cliente no encontrado")
+        return redirect(url_for('venta.index'))
+    
+    # Obtener el correo del cliente desde la colección cliente
+    correo_cliente = obtener_correo_cliente(cliente['cedula'])
+    if not correo_cliente:
+        flash("No se encontró el correo del cliente")
+        return redirect(url_for('venta.v_cliente', id=id))
+    
+    # Generar el PDF
+    pdf_buffer = generar_pdf_cliente(cliente)
+    
+    # Enviar el correo con el PDF adjunto
+    if enviar_correo_cliente(correo_cliente, pdf_buffer, cliente['n_cliente']):
+        flash("Correo enviado correctamente","success")
+    else:                                
+        flash("Error al enviar el correo","alert")
+    
+    return redirect(url_for('venta.v_cliente', id=id))

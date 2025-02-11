@@ -15,17 +15,76 @@ from routes.cliente import cliente
 from routes.producto import producto
 from routes.venta import venta
 from routes.user import user
+from flask import Flask
+from mail_config import mail
 # El siguiente es para usar lo que es pug 
 from jinja2 import Environment, FileSystemLoader# pip install Flask Jinja2
-
+import os
 # * Un dato importante para descargar el pdf es que debe ser con el siguiente comando de node 
 #  * npm i html2pdf.js
+
+
 
 db = dbase()
 app = Flask(__name__)
 app.secret_key = 'menplus105'
 app.config['UPLOAD_FOLDER'] = 'D:/Sistema men_plus/static/assets/img'
 
+# Configuración de email
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = ''  # Tu dirección de Gmail
+app.config['MAIL_PASSWORD'] = ''  # Tu contraseña de Gmail
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+
+# Inicializar mail
+mail.init_app(app)
+# * Crear Backup de la base de datos 
+@app.route('/crear_backup', methods=['POST'])
+def crear_backup():
+    # Obtén los datos de las colecciones 'producto', 'stock' y 'usuarios'
+    producto_data = db.producto.find({}, {'_id': 0})  # Excluye el campo '_id'
+    cliente_data = db.cliente.find({}, {'_id': 0})
+    venta_data = db.venta.find({}, {'_id': 0})
+
+    # Crea una carpeta para los respaldos (si no existe)
+    backup_folder = 'backups'
+    os.makedirs(backup_folder, exist_ok=True)
+
+    # Genera nombres de archivo con la fecha actual
+    fecha_actual = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    producto_filename = f'{backup_folder}/producto_{fecha_actual}.json'
+    cliente_filename = f'{backup_folder}/cliente_{fecha_actual}.json'
+    venta_filename = f'{backup_folder}/venta_{fecha_actual}.json'
+
+    # Guarda los datos en archivos JSON
+    with open(producto_filename, 'w') as producto_file:
+        for empleado in producto_data:
+            json.dump(empleado, producto_file)
+            producto_file.write('\n')
+
+    with open(cliente_filename, 'w') as cliente_file:
+        for herramienta in cliente_data:
+            json.dump(herramienta, cliente_file)
+            cliente_file.write('\n')
+
+    with open(venta_filename, 'w') as venta_file:
+        for venta in venta_data:
+            json.dump(venta, venta_file)
+            venta_file.write('\n')
+    return redirect(url_for('completo'))
+
+# todo : Tengo que terminar bien la animacion para el respaldo a la base de datos 
+
+# Transiciones
+@app.route('/completo')
+def completo():
+    return render_template('/admin/completo.html')
+
+@app.route('/admin/completo')
+def adcomp():
+    return redirect(url_for('user.aduser'))
 
 
 # * Vista de Ingreso al sistema 
@@ -80,9 +139,11 @@ app.register_blueprint(cliente)
 # *Codigo de ingreso de producto
 app.register_blueprint(producto)
 
-# *Codigo de ingreso de venta
+# Importar y registrar venta después de inicializar mail
+# Importar y registrar Blueprint después de inicializar mail
+from routes.venta import venta, init_mail
+init_mail(mail)
 app.register_blueprint(venta)
-
 
 @app.errorhandler(404)
 def notFound(error=None):
