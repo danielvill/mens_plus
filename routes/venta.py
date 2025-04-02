@@ -62,7 +62,7 @@ def adventa():
         direccion = request.form["direccion"]
         cedula = request.form["cedula"]
         fecha = request.form["fecha"]
-        
+        usi = request.form["usuario"]
         # Recoger los productos
         id_productos = request.form.getlist("id_producto")
         n_productos = request.form.getlist("n_productos")
@@ -71,15 +71,8 @@ def adventa():
         precios = request.form.getlist("precio")
         resultados = request.form.getlist("resultado")
         totales = request.form.getlist("total")
-        
-        # Debugging
-        print("ID Productos:", id_productos)
-        print("Productos:", n_productos)
-        print("Colores:", colores)
-        print("Cantidades:", cantidades)
-        print("Precios:", precios)
-        print("Resultados:", resultados)
-        print("Totales:", totales)
+         
+       
 
         productos = []
         for i in range(len(n_productos)):
@@ -102,7 +95,8 @@ def adventa():
             "direccion": direccion,
             "cedula": cedula,
             "fecha": fecha,
-            "productos": productos
+            "productos": productos,
+            "usuario":usi
         }
         
         # Insertar el documento en la colección de ventas

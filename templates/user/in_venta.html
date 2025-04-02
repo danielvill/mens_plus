@@ -1,4 +1,4 @@
-{% extends "admin/layout.html" %}
+{% extends "user/layout.html" %}
 {% block content %}
 <div id="page-wrapper">
     <div id="page-inner">
@@ -26,7 +26,7 @@
                     Llenar el formulario
                 </div>
                 <div class="panel-body animate__animated animate__backInLeft">
-                    <form action="/admin/in_venta" role="form" method="post" id="dynamic-form">
+                    <form action="/user/in_venta" role="form" method="post" id="dynamic-form">
                         <div class="form-group">
                             <label>Nombre del cliente</label>
                             <input class="form-control nombre" name="n_cliente" type="text" readonly required>
@@ -49,7 +49,7 @@
                         <br>
                         <div class="form-group">
                             <label>Fecha</label>
-                            <input class="form-control" name="fecha" type="date" required>
+                            <input class="form-control" id="fecha" name="fecha" type="date" required>
                         </div>
                         <!-- Esta parte del codigo es para crear varios inputs -->
 
@@ -120,16 +120,20 @@
                         </div>
                         <div class="form-group" hidden>
                             <label>Usuario</label>
-                            <input class="form-control" name="usuario" type="text" value="admin" readonly>
+                            <input class="form-control" name="usuario" type="text" value="{{ usuario }}" readonly>
                         </div>
-                        
 
                         <button type="button" class="btn btn-success" id="add-product-btn"><i
                                 class="glyphicon glyphicon-plus"></i></button>
                         <button type="submit" class="btn btn-info">Guardar</button>
-
+                        
                     </form>
-
+                    <br>
+                    {% if session.username and not is_admin %}
+                    <form action="{{ url_for('cerrar_caja') }}" method="post">
+                        <button type="submit" class="btn btn-danger">Cerrar caja</button>
+                    </form>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -210,5 +214,18 @@
         </tbody>
     </table>
 </div>
+<script>
+        $(document).ready(function() {
+    // Obtener la fecha actual de la persona 
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //Enero es 0!
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
+    document.getElementById("fecha").setAttribute("min", today);
+    document.getElementById("fecha").setAttribute("max", today);
+});
+</script>
 <script src="/static/assets/js/admin/in_venta.js"></script>
 {% endblock %}

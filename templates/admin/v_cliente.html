@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -75,7 +74,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container" id="factura">
         <div class="header">
@@ -89,7 +87,6 @@
             <p><strong>Direccion: </strong> &nbsp; {{ cliente.direccion }} </p>
             <p><strong>Cedula: </strong> &nbsp; {{ cliente.cedula }}</p>
             <p><strong>Fecha: </strong> &nbsp; {{ cliente.fecha }}</p>
-
         </div>
         <table>
             <thead>
@@ -141,7 +138,6 @@
         <a href="{{ url_for('venta.generar_pdf', id=cliente._id) }}" class="btn btn-info"
             style="background-color: #8BC6C6;">Generar pdf</a>
         <!-- ... tu código HTML existente ... -->
-
         <form action="{{ url_for('venta.enviar_factura_correo', id=cliente['_id']) }}" method="GET"
             style="display: inline;">
             <button type="submit" class="btn btn-success">
@@ -159,7 +155,6 @@
         {% endwith %}
     </div>
 </body>
-
 <script>
     // Obtener el valor total del HTML
 const totalElement = document.querySelector(".total h1");

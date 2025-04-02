@@ -92,8 +92,148 @@
             </div>
         </div>
 
+        <div class="row" style="padding-bottom: 100px;">
+            <div class="col-md-6">
+                <div id="comments-sec">
+                    <h4><strong> Ventas por usuarios</strong></h4>
+                    <hr />
+                    <table class="table table-bordered table-hover" id="myTable3">
+                        <thead>
+                            <tr>
+                                <th>Codigo venta</th>
+                                <th>Fecha de la venta</th>
+                                <th>Mes</th>
+                                <th>Usuario</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ven in venta2 %}
+                            <tr>
+                                <td>
+                                    {{ven.id_venta}}
+                                </td>
+                                <td>
+                                    {{ven.fecha}}
+                                </td>
+                                <td class="moth">
+
+                                </td>
+                                <td>
+                                    {{ven.usuario}}
+                                </td>
+                                <td>
+                                    {{ven.productos[0].total}}
+                                </td>
+                            </tr>
+                            </form>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="panel  noti-box">
+                    <canvas id="myDoughnutChart3"></canvas>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
+
+<script>
+    // Función para convertir fecha a mes de la tabla para saber cual producto es el mas vendido
+function obtenerMes(fecha) {
+    const opciones = { month: 'long' };
+    return new Date(fecha).toLocaleDateString('es-ES', opciones);
+}
+
+
+// Obtener todas las celdas con la clase 'moth' (mes)
+const celdasMes3 = document.querySelectorAll('.moth');
+
+// Asignar el mes correspondiente a cada celda
+celdasMes3.forEach(celda => {
+    const fecha = celda.previousElementSibling.textContent.trim(); // Celda con la fecha
+    const mesTexto = obtenerMes(fecha); // Convertir la fecha a mes
+    celda.textContent = mesTexto; // Asignar el mes a la celda
+});
+
+
+// Función para agrupar por mes y usuario
+const ventasAgrupadas = {};
+
+document.querySelectorAll('#myTable3 tbody tr').forEach(row => {
+    const fecha = row.children[1].innerText.trim();
+    const mes = obtenerMes(fecha); // Usa la función obtenerMes que ya tienes
+    const usuario = row.children[3].innerText.trim();
+    const total = parseFloat(row.children[4].innerText);
+
+    // Crear un identificador único para mes y usuario
+    const clave = `${mes} - ${usuario}`;
+
+    // Acumular el total por clave (mes + usuario)
+    if (!ventasAgrupadas[clave]) {
+        ventasAgrupadas[clave] = { mes, usuario, total: 0 };
+    }
+    ventasAgrupadas[clave].total += total;
+});
+
+// Convertir el objeto agrupado en un arreglo
+const ventas = Object.values(ventasAgrupadas);
+
+console.log(ventas); // Verifica que los datos estén agrupados correctamente
+// Extraer etiquetas y datos del arreglo agrupado
+const labels4 = ventas.map(venta => `${venta.mes} - ${venta.usuario}`);
+const data4 = ventas.map(venta => venta.total);
+
+const ctx4 = document.getElementById('myDoughnutChart3').getContext('2d');
+
+const myDoughnutChart4 = new Chart(ctx4, {
+    type: 'doughnut',
+    data: {
+        labels: labels4,
+        datasets: [{
+            label: 'Total Ventas por Mes y Usuario',
+            data: data4,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const label = context.label || '';
+                        const value = context.raw || 0;
+                        return `${label}: $${value}`;
+                    }
+                }
+            }
+        }
+    }
+});
+
+
+</script>
 
 <script>
     // Extraer los datos de la tabla productos
@@ -150,7 +290,6 @@
         }
     });
 </script>
-
 
 <script>
     // Extraer los datos de la tabla ventas para mostrar los datos
@@ -210,7 +349,6 @@
 
 </script>
 
-
 <script>
     $('#myTable').DataTable({
         "language": {
@@ -225,6 +363,13 @@
         }
     });
     var table = $('#myTable2').DataTable();
+
+    $('#myTable3').DataTable({
+        "language": {
+            "url": "/static/assets/js/Spanish.json"
+        }
+    });
+    var table = $('#myTable3').DataTable();
 
     $(document).ready(function () {
 
@@ -258,8 +403,5 @@
             updateStockText();
         });
     });
-
 </script>
-
-
 {% endblock %}
