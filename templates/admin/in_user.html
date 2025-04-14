@@ -29,19 +29,19 @@
                 <div class="panel-body animate__animated animate__backInLeft">
                     <form action="/admin/in_user" method="post">
                         <div class="form-group">
+                            <label>Cedula</label>
+                            <input class="form-control" name="cedula" type="number" oninput="limitarEntrada()">
+                        </div>
+                        <div class="form-group">
                             <label>Nombre de Usuario</label>
                             <input class="form-control" name="user" type="text">
 
                         </div>
                         <div class="form-group">
-                            <label>Cedula</label>
-                            <input class="form-control" name="cedula" type="number" oninput="limitarEntrada()">
-                        </div>
-                        <div class="form-group">
                             <label>Contraseña</label>
                             <input class="form-control" name="contraseña" type="password">
                         </div>
-                        <button type="submit" class="btn btn-info">Guardar </button>
+                        <button type="submit" style="background-color: #428BCA; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">📦 Guardar </button>
                     </form>
                 </div>
             </div>

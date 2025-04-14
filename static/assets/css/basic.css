@@ -24,12 +24,18 @@ body {
     background: #202020;
 }
 
+/*==============================================
+    Color de fondo para afuera del formulario    
+    =============================================*/
 #page-wrapper {
     padding: 15px 15px;
     min-height: 600px;
-    background: #F3F3F3;
+    background: #1B63C5;
 }
 
+/*==============================================
+    Color de fondo  del formulario   
+    =============================================*/
 #page-inner {
     width: 100%;
     margin: 10px 20px 10px 0px;

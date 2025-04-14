@@ -1,0 +1,66 @@
+{% extends "user/layout.html" %}
+{% block content %}
+<div id="page-wrapper">
+    <div id="page-inner">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="page-head-line animate__animated animate__backInLeft">Visualizar Cliente</h1>
+                </h1>
+            </div>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger" style="background-color: #00CA79;">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+
+        <div class="animate__animated animate__backInLeft">
+            <!-- /. ROW  -->
+            <table class="table table-bordered table-hover" id="myTable">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Cedula</th>
+                        <th>Direccion</th>
+                        <th>Telefono</th>
+                        <th>Correo</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cliente in cliente %}
+                    <tr>
+                        <td>{{ cliente.nombre }}</td>
+                        <td>{{ cliente.apellido }}</td>
+                        <td>{{ cliente.cedula }}</td>
+                        <td>{{ cliente.direccion }}</td>
+                        <td>{{ cliente.telefono }}</td>
+                        <td>{{ cliente.correo }}</td>
+
+                    </tr>
+                    </form>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            "language": {
+                "url": "/static/assets/js/Spanish.json"
+            }
+        });
+        var table = $('#myTable').DataTable();
+    });
+</script>
+
+
+{% endblock %}

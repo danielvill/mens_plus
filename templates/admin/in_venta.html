@@ -44,12 +44,16 @@
                             <input class="form-control cedula" name="cedula" type="text" readonly required>
                         </div>
                         <div>
-                            <button type="button" class="but1  btn-primary">Cargar cliente</button>
+                            <button type="button" class="but1  " style="background-color: #D1574E; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">🧑🏼‍🤝‍🧑🏼 Cargar cliente</button>
                         </div>
                         <br>
                         <div class="form-group">
                             <label>Fecha</label>
                             <input class="form-control" name="fecha" type="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Hora</label>
+                            <input class="form-control" name="hora"  id="hora" type="time" required>
                         </div>
                         <!-- Esta parte del codigo es para crear varios inputs -->
 
@@ -124,9 +128,9 @@
                         </div>
                         
 
-                        <button type="button" class="btn btn-success" id="add-product-btn"><i
-                                class="glyphicon glyphicon-plus"></i></button>
-                        <button type="submit" class="btn btn-info">Guardar</button>
+                        <button type="button" style="background-color: #5CB85C; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;" id="add-product-btn"><i
+                                class="glyphicon glyphicon-plus"></i> Añadir</button>
+                        <button type="submit" style="background-color: #428BCA; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">📦 Guardar</button>
 
                     </form>
 
@@ -210,5 +214,24 @@
         </tbody>
     </table>
 </div>
+<script>
+    // Obtener el elemento del campo de hora por su ID
+    const horaInput = document.getElementById('hora');
+
+    // Crear una función para obtener la hora actual en formato HH:MM
+    function setHoraActual() {
+        const ahora = new Date();
+        const horas = ahora.getHours().toString().padStart(2, '0');
+        const minutos = ahora.getMinutes().toString().padStart(2, '0');
+        const horaActual = `${horas}:${minutos}`;
+        
+        // Asignar la hora actual al campo de entrada
+        horaInput.value = horaActual;
+    }
+
+    // Llamar a la función cuando cargue la página
+    window.onload = setHoraActual;
+</script>
+
 <script src="/static/assets/js/admin/in_venta.js"></script>
 {% endblock %}

@@ -21,7 +21,8 @@
     <link rel="stylesheet" href="/static/assets/css/select2.min.css">
     <!-- DATATABLES STYLES -->
     <link href="/static/assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
     <!-- Animaciones  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
@@ -67,7 +68,7 @@
             <form id="backupForm"  method="post" action="/crear_backup" onclick="submitForm()">
             <div class="header-right">
 
-                    <button type="submit" class="btn btn-info"><b>Backup </b><i class="fa fa-hdd-o fa-2x"></i></button>
+                    <button type="submit" class="btn btn-info" style="background-color: #1B63C5;"><b>Backup </b><i class="fa fa-hdd-o fa-2x"></i></button>
                 </form>
                 <a href="{{ url_for('logout') }}" class="btn btn-danger " title="Logout"><i
                         class="fa fa-sign-out fa-2x"></i></a>
@@ -83,12 +84,7 @@
                         <div class="user-img-div">
                             <img src="/static/assets/img/menplus.jpg" class="img-thumbnail" />
 
-                            <div class="inner-text  ">
-                                Tienda de Ropa
-                                <br />
-                                <small>Tu estilo, tu esencia. Simplificamos tu compra para que brilles con cada
-                                    prenda.</small>
-                            </div>
+                            
                         </div>
 
                     </li>
@@ -128,10 +124,16 @@
                             <li>
                                 <a href="./producto"><i class="fa fa-eye "></i>Visualizar producto</a>
                             </li>
+                            <li>
+                                <a href="./in_marca"><i class="bi bi-line"></i>Ingresar marca</a>
+                            </li>
+                            <li>
+                                <a href="./marca"><i class="bi bi-pen-fill "></i>Visualizar marca</a>
+                            </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-paper-plane"></i>Venta<span class="fa arrow"></span></a>
+                        <a href="#"><i class="bi bi-shop"></i>Venta<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="./in_venta"><i class="fa fa-toggle-on"></i>Ingresar venta</a>

@@ -1,0 +1,84 @@
+{% extends "user/layout.html" %}
+{% block content %}
+<div id="page-wrapper">
+    <div id="page-inner">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="page-head-line animate__animated animate__backInLeft">Visualizar Productos</h1>
+                </h1>
+            </div>
+        </div>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger" style="background-color: #00CA79;">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+        <div class="animate__animated animate__backInLeft">
+            <!-- /. ROW  -->
+            <table class="table table-bordered table-hover" id="myTable">
+                <thead>
+                    <tr>
+                        <th >Codigo</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Color</th>
+                        <th>Imagen</th>
+                        <th>Marca</th>
+                        <th>Cantidad</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in producto %}
+                    <tr>
+                        <td >
+                            {{producto.id_producto}}
+                        </td>
+                        <td>
+                            {{producto.nombre}}
+                        </td>
+                        <td>
+                            {{producto.precio}}
+                        </td>
+                        <td>
+                            {{producto.color}}
+                        </td>
+                        <td>
+                            <!-- Asegúrate de incluir la subcarpeta 'img' si es necesario -->
+                            <img src="{{ url_for('static', filename='assets/img/' + producto.imagen) }}" alt="Imagen de herramienta" width="50">
+                            
+                        </td>    
+                        <td>
+                            {{producto.marca}}
+                        </td>                   
+                        <td>
+                            {{producto.cantidad}}
+                        </td>
+
+                    </tr>
+                    
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            "language": {
+                "url": "/static/assets/js/Spanish.json"
+            }
+        });
+        var table = $('#myTable').DataTable();
+    });
+</script>
+
+{% endblock %}

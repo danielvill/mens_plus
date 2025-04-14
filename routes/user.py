@@ -110,6 +110,7 @@ def usventa():
         direccion = request.form["direccion"]
         cedula = request.form["cedula"]
         fecha = request.form["fecha"]
+        hora = request.form["hora"]
         usi = request.form["usuario"]
         # Recoger los productos
         id_productos = request.form.getlist("id_producto")
@@ -143,6 +144,7 @@ def usventa():
             "direccion": direccion,
             "cedula": cedula,
             "fecha": fecha,
+            "hora": hora,
             "productos": productos,
             "usuario":usi
         }
@@ -176,3 +178,20 @@ def usventa():
         return render_template("user/in_venta.html", cliente=cliente, producto=producto,usuario=session['username'])
 
 
+# Este apartado es para visualizar al cliente
+@user.route("/user/cliente")
+def u_cli():
+    if 'username' not in session:
+        flash("Inicia sesion con tu usuario y contraseña")
+        return redirect(url_for('user.index'))
+    cliente = db['cliente'].find()
+    return render_template("user/cliente.html", cliente=cliente)
+
+# Este es para visualizar los productos en user
+@user.route("/user/producto")
+def u_product():
+    if 'username' not in session:
+        flash("Inicia sesion con tu usuario y contraseña")
+        return redirect(url_for('user.index'))
+    producto = db["producto"].find()
+    return render_template('user/producto.html', producto=producto)

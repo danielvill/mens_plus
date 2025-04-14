@@ -62,6 +62,7 @@ def adventa():
         direccion = request.form["direccion"]
         cedula = request.form["cedula"]
         fecha = request.form["fecha"]
+        hora = request.form["hora"]
         usi = request.form["usuario"]
         # Recoger los productos
         id_productos = request.form.getlist("id_producto")
@@ -95,6 +96,7 @@ def adventa():
             "direccion": direccion,
             "cedula": cedula,
             "fecha": fecha,
+            "hora": hora,
             "productos": productos,
             "usuario":usi
         }
@@ -150,7 +152,16 @@ def v_cliente(id):
     cliente = db['venta'].find_one({"_id": ObjectId(id)})
     return render_template("admin/v_cliente.html", cliente=cliente)
 
+# Visualizar venta usuarios
+@venta.route("/user/venta")
+def u_cli():
+    if 'username' not in session:
+        flash("Inicia sesion con tu usuario y contraseña")
+        return redirect(url_for('venta.index'))
+    venta = db['venta'].find({"usuario": session['username']})
+    return render_template("user/venta.html", venta=venta)
 
+    
 
 # Nueva ruta para generar el PDF
 @venta.route("/admin/venta/<id>/pdf")

@@ -41,15 +41,17 @@ def adpro():
     if 'username' not in session:
         flash("Inicia sesion con tu usuario y contraseña")
         return redirect(url_for('user.index'))
-    
+    marcas = db['marca'].find()
+
     if request.method == 'POST':
         id_producto = str(get_next_sequence('productoId')).zfill(3)
         producto = db["producto"]
         nombre = request.form['nombre']
         precio = request.form['precio']
         color = request.form['color']
+        marca  = request.form['marca']
         cantidad = request.form['cantidad']
-
+        
         exist_nombre_color = producto.find_one({"nombre": nombre, "color": color})
 
         if exist_nombre_color:
@@ -70,13 +72,13 @@ def adpro():
                 file.save(file_path)
                 imagen_filename = filename
             
-            produc = Producto(id_producto, nombre, precio, color, imagen_filename, cantidad)
+            produc = Producto(id_producto, nombre, precio, color, imagen_filename, marca,cantidad)
             producto.insert_one(produc.ProductoDBCollection())
             flash("Producto agregado correctamente" , "success")
             return redirect(url_for('producto.adpro'))
 
     else:
-        return render_template('admin/in_producto.html')
+        return render_template('admin/in_producto.html',marcas=marcas)
 
 # Editar Producto
 @producto.route('/edit_pro/<string:edipro>', methods=['GET', 'POST'])
@@ -86,7 +88,7 @@ def edit_pro(edipro):
         return redirect(url_for('producto.index'))
     producto = db['producto']
     producto_existente = producto.find_one({"id_producto": edipro})
-
+    marca = db['marca'].find()
     if request.method == 'POST':
         id_producto = request.form["id_producto"]
         nombre = request.form["nombre"]
@@ -126,7 +128,7 @@ def edit_pro(edipro):
             flash("Ha ocurrido un error" , "danger")
             return redirect(url_for('producto.edit_pro', edipro=edipro))
 
-    return render_template('admin/edit_pro.html', producto=producto_existente)
+    return render_template('admin/edit_pro.html', producto=producto_existente,marca=marca)
 
 # Eliminar Producto
 @producto.route('/delete_pr/<string:eliadpro>')

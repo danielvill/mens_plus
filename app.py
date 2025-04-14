@@ -21,6 +21,7 @@ from mail_config import mail
 from jinja2 import Environment, FileSystemLoader# pip install Flask Jinja2
 import os
 from datetime import datetime, timedelta
+from routes.marca import marca
 # * Un dato importante para descargar el pdf es que debe ser con el siguiente comando de node 
 #  * npm i html2pdf.js
 block_until = {} # Diccionario para almacenar las sesiones de los usuarios como cierre de caja
@@ -257,6 +258,9 @@ app.register_blueprint(cliente)
 
 # *Codigo de ingreso de producto
 app.register_blueprint(producto)
+
+# Codigo para marca
+app.register_blueprint(marca)
 
 # Importar y registrar venta después de inicializar mail
 # Importar y registrar Blueprint después de inicializar mail
