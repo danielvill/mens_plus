@@ -135,14 +135,14 @@
             <h1>Total: {{ cliente.productos[0].total }}</h1>
             </p>
         </div>
-        <a href="{{ url_for('venta.generar_pdf', id=cliente._id) }}" class="btn btn-info"
-            style="background-color: #8BC6C6;">Generar pdf</a>
+        <a href="{{ url_for('venta.generar_pdf', id=cliente._id) }}" class="btn btn-primary" style="background-color: #8BC6C6; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">📃 Generar pdf</a>
         <!-- ... tu código HTML existente ... -->
         <form action="{{ url_for('venta.enviar_factura_correo', id=cliente['_id']) }}" method="GET"
             style="display: inline;">
-            <button type="submit" class="btn btn-success">
-                Enviar PDF por correo
+            <button type="submit"  style="background-color: #D1574E; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                📮  Enviar PDF por correo
             </button>
+            <a href="/index" class="btn btn-primary" style="background-color: #1B63C5; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">🔙 Iniciar Sesion</a>
         </form>
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
