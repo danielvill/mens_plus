@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, session, redirect,
 from controllers.database import Conexion as dbase
 from modules.user import User
 from pymongo import MongoClient
-
+from modules.cliente import Cliente
 db = dbase()
 user = Blueprint('user', __name__)
 
@@ -195,3 +195,42 @@ def u_product():
         return redirect(url_for('user.index'))
     producto = db["producto"].find()
     return render_template('user/producto.html', producto=producto)
+
+
+# Ingreso con un Id unico
+@user.route('/user/in_cliente',methods=['GET','POST'])
+def usercli():
+    if 'username' not in session:
+        flash("Inicia sesion con tu usuario y contraseña")
+        return redirect(url_for('user.index'))  # Redirige al usuario al inicio si no está en la sesión
+    
+
+    if request.method == 'POST':
+        cliente = db["cliente"]
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        cedula = request.form['cedula']
+        direccion = request.form['direccion']
+        telefono = request.form['telefono']
+        correo = request.form['correo']
+
+        exist_cedula = cliente.find_one({"cedula": cedula})
+        exist_telefono = cliente.find_one({"telefono": telefono})
+        exist_correo = cliente.find_one({"correo": correo})
+
+        if exist_cedula:
+            flash("La cedula ya existe" , "danger")
+            return redirect(url_for('user.u_cli'))
+        elif exist_telefono:
+            flash("El celular ya existe" ,"danger")
+            return redirect(url_for('user.u_cli'))
+        elif exist_correo:
+            flash("El correo ya existe" , "danger")
+            return redirect(url_for('user.u_cli'))
+        else:
+            client = Cliente( nombre, apellido, cedula, direccion, telefono, correo)
+            cliente.insert_one(client.ClienteDBCollection())
+            flash("Enviado a la base de datos" , "success")
+            return redirect(url_for('user.u_cli'))
+    else:
+        return render_template('/user/in_cliente.html',message=request.args.get('message'))

@@ -82,3 +82,5 @@ def v_cli():
         return redirect(url_for('cliente.index'))
     cliente = db['cliente'].find()
     return render_template("admin/cliente.html", cliente=cliente)
+
+

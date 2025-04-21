@@ -28,6 +28,10 @@
                 <div class="panel-body animate__animated animate__backInLeft">
                     <form action="/admin/in_venta" role="form" method="post" id="dynamic-form">
                         <div class="form-group">
+                            <label>cedula</label>
+                            <input class="form-control cedula" name="cedula" type="text" readonly required>
+                        </div>
+                        <div class="form-group">
                             <label>Nombre del cliente</label>
                             <input class="form-control nombre" name="n_cliente" type="text" readonly required>
                         </div>
@@ -39,10 +43,7 @@
                             <label>Direccion</label>
                             <input class="form-control direccion" name="direccion" type="text">
                         </div>
-                        <div class="form-group">
-                            <label>cedula</label>
-                            <input class="form-control cedula" name="cedula" type="text" readonly required>
-                        </div>
+                        
                         <div>
                             <button type="button" class="but1  " style="background-color: #D1574E; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">🧑🏼‍🤝‍🧑🏼 Cargar cliente</button>
                         </div>
