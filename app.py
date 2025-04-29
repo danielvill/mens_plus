@@ -35,8 +35,8 @@ app.config['UPLOAD_FOLDER'] = 'D:/Sistema men_plus/static/assets/img'
 # Configuración de email
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = ''  # Tu dirección de Gmail
-app.config['MAIL_PASSWORD'] = ''  # Tu contraseña de Gmail
+app.config['MAIL_USERNAME'] = 'ronalveta@gmail.com'  # Tu dirección de Gmail
+app.config['MAIL_PASSWORD'] = 'mpzx innj tfrr xtcn'  # Tu contraseña de Gmail
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 

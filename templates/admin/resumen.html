@@ -46,8 +46,8 @@
 
             </div>
             <div class="col-md-6">
-                <div class="panel  noti-box" >
-                    <canvas id="myDoughnutChart" ></canvas>
+                <div class="panel  noti-box">
+                    <canvas id="myDoughnutChart"></canvas>
                 </div>
             </div>
         </div>
@@ -145,93 +145,109 @@
 
 <script>
     // Función para convertir fecha a mes de la tabla para saber cual producto es el mas vendido
-function obtenerMes(fecha) {
-    const opciones = { month: 'long' };
-    return new Date(fecha).toLocaleDateString('es-ES', opciones);
-}
-
-
-// Obtener todas las celdas con la clase 'moth' (mes)
-const celdasMes3 = document.querySelectorAll('.moth');
-
-// Asignar el mes correspondiente a cada celda
-celdasMes3.forEach(celda => {
-    const fecha = celda.previousElementSibling.textContent.trim(); // Celda con la fecha
-    const mesTexto = obtenerMes(fecha); // Convertir la fecha a mes
-    celda.textContent = mesTexto; // Asignar el mes a la celda
-});
-
-
-// Función para agrupar por mes y usuario
-const ventasAgrupadas = {};
-
-document.querySelectorAll('#myTable3 tbody tr').forEach(row => {
-    const fecha = row.children[1].innerText.trim();
-    const mes = obtenerMes(fecha); // Usa la función obtenerMes que ya tienes
-    const usuario = row.children[3].innerText.trim();
-    const total = parseFloat(row.children[4].innerText);
-
-    // Crear un identificador único para mes y usuario
-    const clave = `${mes} - ${usuario}`;
-
-    // Acumular el total por clave (mes + usuario)
-    if (!ventasAgrupadas[clave]) {
-        ventasAgrupadas[clave] = { mes, usuario, total: 0 };
+    function obtenerMes(fecha) {
+        const opciones = { month: 'long' };
+        return new Date(fecha).toLocaleDateString('es-ES', opciones);
     }
-    ventasAgrupadas[clave].total += total;
-});
 
-// Convertir el objeto agrupado en un arreglo
-const ventas = Object.values(ventasAgrupadas);
 
-console.log(ventas); // Verifica que los datos estén agrupados correctamente
-// Extraer etiquetas y datos del arreglo agrupado
-const labels4 = ventas.map(venta => `${venta.mes} - ${venta.usuario}`);
-const data4 = ventas.map(venta => venta.total);
+    // Obtener todas las celdas con la clase 'moth' (mes)
+    const celdasMes3 = document.querySelectorAll('.moth');
 
-const ctx4 = document.getElementById('myDoughnutChart3').getContext('2d');
+    // Asignar el mes correspondiente a cada celda
+    celdasMes3.forEach(celda => {
+        const fecha = celda.previousElementSibling.textContent.trim(); // Celda con la fecha
+        const mesTexto = obtenerMes(fecha); // Convertir la fecha a mes
+        celda.textContent = mesTexto; // Asignar el mes a la celda
+    });
 
-const myDoughnutChart4 = new Chart(ctx4, {
-    type: 'doughnut',
+
+    // Función para agrupar por mes y usuario
+    const ventasAgrupadas = {};
+
+    document.querySelectorAll('#myTable3 tbody tr').forEach(row => {
+        const fecha = row.children[1].innerText.trim();
+        const mes = obtenerMes(fecha); // Usa la función obtenerMes que ya tienes
+        const usuario = row.children[3].innerText.trim();
+        const total = parseFloat(row.children[4].innerText);
+        // Crear un identificador único para mes y usuario
+        const clave = `${mes} - ${usuario}`;
+        // Acumular el total por clave (mes + usuario)
+        if (!ventasAgrupadas[clave]) {
+            ventasAgrupadas[clave] = { mes, usuario, total: 0 };
+        }
+        ventasAgrupadas[clave].total += total;
+    });
+
+  
+    
+    // Convertir el objeto agrupado en un arreglo
+    const ventas = Object.values(ventasAgrupadas);
+
+    console.log(ventas); // Verifica que los datos estén agrupados correctamente
+    // Extraer etiquetas y datos del arreglo agrupado
+    const labels4 = ventas.map(venta => `${venta.mes} - ${venta.usuario}`);
+    const data4 = ventas.map(venta => venta.total);
+
+
+      // Generar colores aleatorios para cada barra
+    const coloresBarras2 = data4.map(() => {
+        const r = Math.floor(Math.random() * 200) + 55;
+        const g = Math.floor(Math.random() * 200) + 55;
+        const b = Math.floor(Math.random() * 200) + 55;
+        return `rgba(${r}, ${g}, ${b}, 0.7)`;
+    });
+    const ctx4 = document.getElementById('myDoughnutChart3').getContext('2d');
+    ctx4.canvas.width = 400;
+    ctx4.canvas.height = 400;
+
+    const myBarChart4 = new Chart(ctx4, {
+    type: 'bar', // Cambiado a "bar"
     data: {
         labels: labels4,
         datasets: [{
             label: 'Total Ventas por Mes y Usuario',
             data: data4,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.6)',
-                'rgba(54, 162, 235, 0.6)',
-                'rgba(255, 206, 86, 0.6)',
-                'rgba(75, 192, 192, 0.6)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)'
-            ],
+            backgroundColor: coloresBarras2, // Sigue usando los mismos colores
+            borderColor: coloresBarras2.map(color => color.replace('0.7', '1')), // Bordes
             borderWidth: 1
         }]
     },
     options: {
-        responsive: true,
-        cutout: '60%',
+        responsive: false,
+        maintainAspectRatio: false,
         plugins: {
             legend: {
-                position: 'top',
+                position: 'top', // Posición de la leyenda
             },
             tooltip: {
                 callbacks: {
-                    label: function(context) {
+                    label: function (context) {
                         const label = context.label || '';
                         const value = context.raw || 0;
                         return `${label}: $${value}`;
                     }
                 }
             }
+        },
+        scales: { // Agregar configuración para los ejes
+            x: {
+                title: {
+                    display: true,
+                    text: 'Meses' // Cambia según lo que representen tus etiquetas
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Ventas ($)' // Cambia según los datos que estás representando
+                },
+                beginAtZero: true
+            }
         }
     }
 });
+
 
 
 </script>
@@ -249,47 +265,41 @@ const myDoughnutChart4 = new Chart(ctx4, {
         data.push(parseInt(cells[2].innerText)); // Cantidad del producto
     }
 
+    // Generar colores aleatorios para cada barra
+    const coloresBarras = data.map(() => {
+        const r = Math.floor(Math.random() * 200) + 55;
+        const g = Math.floor(Math.random() * 200) + 55;
+        const b = Math.floor(Math.random() * 200) + 55;
+        return `rgba(${r}, ${g}, ${b}, 0.7)`;
+    });
+
     // Configurar el gráfico de tipo "dona"
     const ctx = document.getElementById('myDoughnutChart').getContext('2d');
+    ctx.canvas.width = 400;
+    ctx.canvas.height = 400;
     const myDoughnutChart = new Chart(ctx, {
-        type: 'doughnut',
+        type: 'pie', // Cambiado a "pie"
         data: {
             labels: labels,
             datasets: [{
                 label: 'Cantidad de Productos',
                 data: data,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
+                backgroundColor: coloresBarras,
+                borderColor: coloresBarras.map(color => color.replace('0.7', '1')),
                 borderWidth: 1
             }]
         },
         options: {
-            responsive: true,
-            cutout: '60%',
+            responsive: false,
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    position: 'top',
+                    position: 'top', // Cambiar la posición si prefieres algo diferente
                 },
                 title: {
                     display: true,
-                    text: 'Productos'
+                    text: 'Productos' // Cambia el título si lo necesitas
                 }
-                
-                
             }
         }
     });
@@ -308,9 +318,21 @@ const myDoughnutChart4 = new Chart(ctx4, {
         labels2.push(cells2[1].innerText); // Fecha de la venta
         data2.push(parseInt(cells2[2].innerText)); // Total de la venta
     }
+    
+     // Generar colores aleatorios para cada barra
+    const coloresBarras3 = data2.map(() => {
+        const r = Math.floor(Math.random() * 200) + 55;
+        const g = Math.floor(Math.random() * 200) + 55;
+        const b = Math.floor(Math.random() * 200) + 55;
+        return `rgba(${r}, ${g}, ${b}, 0.7)`;
+    });
+
 
     // Configurar el gráfico de tipo "dona" para ventas
     const ctx2 = document.getElementById('myDoughnutChart2').getContext('2d');
+    ctx2.canvas.width = 400;
+    ctx2.canvas.height = 400;
+
     const myDoughnutChart2 = new Chart(ctx2, {
         type: 'doughnut',
         data: {
@@ -318,27 +340,14 @@ const myDoughnutChart4 = new Chart(ctx4, {
             datasets: [{
                 label: 'Total de Ventas',
                 data: data2, // Usar data2 (totales de ventas)
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
+                backgroundColor: coloresBarras,
+                borderColor: coloresBarras.map(color => color.replace('0.7', '1')),
                 borderWidth: 1
             }]
         },
         options: {
-            responsive: true,
+            responsive: false,
+            maintainAspectRatio: false,
             cutout: '60%',
             plugins: {
                 legend: {
