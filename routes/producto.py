@@ -160,7 +160,18 @@ def resumen():
         flash("Inicia sesion con tu usuario y contraseña")
         return redirect(url_for('producto.index'))
     
+    # Contar registros en cada coleccion para saber el total
+    total_clientes = db['cliente'].count_documents({})
+    total_productos = db['producto'].count_documents({})
+    total_ventas = db['venta'].count_documents({})
     producto = db["producto"].find()
-    venta = db ["venta"].find()
-    venta2= db["venta"].find()
-    return render_template('admin/resumen.html', producto=producto,venta=venta,venta2=venta2)
+    venta = db["venta"].find()
+    venta2 = db["venta"].find()
+    
+    return render_template('admin/resumen.html', 
+                            total_clientes=total_clientes,
+                            total_productos=total_productos,
+                            total_ventas=total_ventas,
+                            producto=producto,
+                            venta=venta,
+                            venta2=venta2)

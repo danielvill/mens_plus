@@ -9,8 +9,38 @@
             </div>
         </div>
         <div class="row" style="padding-bottom: 100px;">
+            <div>
+                <div class="col-md-4">
+                    <div class="main-box mb-red">
+                        <a href="#">
+                            <i class="bi bi-person-arms-up fa-5x"></i>
+                            <h5>Clientes : {{ total_clientes }}</h5>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="main-box mb-dull">
+                        <a href="#">
+                            <i class="bi bi-shop-window fa-5x"></i>
+                            <h5>Productos : {{ total_productos }}</h5>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="main-box mb-pink">
+                        <a href="#">
+                            <i class="bi bi-currency-dollar fa-5x"></i>
+                            <h5>Ventas : {{ total_ventas or 0 }} </h5>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            
             <div class="col-md-6">
+
                 <div id="comments-sec">
+
                     <h4><strong>Productos </strong></h4>
                     <hr />
                     <table class="table table-bordered table-hover" id="myTable">
@@ -179,8 +209,8 @@
         ventasAgrupadas[clave].total += total;
     });
 
-  
-    
+
+
     // Convertir el objeto agrupado en un arreglo
     const ventas = Object.values(ventasAgrupadas);
 
@@ -190,7 +220,7 @@
     const data4 = ventas.map(venta => venta.total);
 
 
-      // Generar colores aleatorios para cada barra
+    // Generar colores aleatorios para cada barra
     const coloresBarras2 = data4.map(() => {
         const r = Math.floor(Math.random() * 200) + 55;
         const g = Math.floor(Math.random() * 200) + 55;
@@ -202,51 +232,51 @@
     ctx4.canvas.height = 400;
 
     const myBarChart4 = new Chart(ctx4, {
-    type: 'bar', // Cambiado a "bar"
-    data: {
-        labels: labels4,
-        datasets: [{
-            label: 'Total Ventas por Mes y Usuario',
-            data: data4,
-            backgroundColor: coloresBarras2, // Sigue usando los mismos colores
-            borderColor: coloresBarras2.map(color => color.replace('0.7', '1')), // Bordes
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: false,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'top', // Posición de la leyenda
-            },
-            tooltip: {
-                callbacks: {
-                    label: function (context) {
-                        const label = context.label || '';
-                        const value = context.raw || 0;
-                        return `${label}: $${value}`;
+        type: 'bar', // Cambiado a "bar"
+        data: {
+            labels: labels4,
+            datasets: [{
+                label: 'Total Ventas por Mes y Usuario',
+                data: data4,
+                backgroundColor: coloresBarras2, // Sigue usando los mismos colores
+                borderColor: coloresBarras2.map(color => color.replace('0.7', '1')), // Bordes
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top', // Posición de la leyenda
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            const label = context.label || '';
+                            const value = context.raw || 0;
+                            return `${label}: $${value}`;
+                        }
                     }
                 }
-            }
-        },
-        scales: { // Agregar configuración para los ejes
-            x: {
-                title: {
-                    display: true,
-                    text: 'Meses' // Cambia según lo que representen tus etiquetas
-                }
             },
-            y: {
-                title: {
-                    display: true,
-                    text: 'Ventas ($)' // Cambia según los datos que estás representando
+            scales: { // Agregar configuración para los ejes
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Meses' // Cambia según lo que representen tus etiquetas
+                    }
                 },
-                beginAtZero: true
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Ventas ($)' // Cambia según los datos que estás representando
+                    },
+                    beginAtZero: true
+                }
             }
         }
-    }
-});
+    });
 
 
 
@@ -318,8 +348,8 @@
         labels2.push(cells2[1].innerText); // Fecha de la venta
         data2.push(parseInt(cells2[2].innerText)); // Total de la venta
     }
-    
-     // Generar colores aleatorios para cada barra
+
+    // Generar colores aleatorios para cada barra
     const coloresBarras3 = data2.map(() => {
         const r = Math.floor(Math.random() * 200) + 55;
         const g = Math.floor(Math.random() * 200) + 55;
