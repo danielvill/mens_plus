@@ -67,6 +67,7 @@ def adventa():
         # Recoger los productos
         id_productos = request.form.getlist("id_producto")
         n_productos = request.form.getlist("n_productos")
+        talla = request.form.getlist("talla")
         colores = request.form.getlist("color")
         cantidades = request.form.getlist("cantidad")
         precios = request.form.getlist("precio")
@@ -80,6 +81,7 @@ def adventa():
             producto = {
                 "id_producto": id_productos[i] if i < len(id_productos) else '',
                 "n_producto": n_productos[i] if i < len(n_productos) else '',
+                "talla": talla[i] if i < len(talla) else '',
                 "color": colores[i] if i < len(colores) else '',
                 "cantidad": cantidades[i] if i < len(cantidades) else '',
                 "precio": precios[i] if i < len(precios) else '',
@@ -196,18 +198,20 @@ def generar_pdf(id):
     
     # Tabla de productos
     c.drawString(50, height - 240, "Nombre de los productos")
-    c.drawString(200, height - 240, "Color")
-    c.drawString(300, height - 240, "Cantidad")
-    c.drawString(400, height - 240, "Precio $")
-    c.drawString(500, height - 240, "Total")
+    c.drawString(200, height - 240, "Talla")
+    c.drawString(250, height - 240, "Color")
+    c.drawString(350, height - 240, "Cantidad")
+    c.drawString(450, height - 240, "Precio $")
+    c.drawString(550, height - 240, "Total")
     
     y = height - 260
     for producto in cliente['productos']:
         c.drawString(50, y, producto['n_producto'])
-        c.drawString(200, y, producto['color'])
-        c.drawString(300, y, str(producto['cantidad']))
-        c.drawString(400, y, str(producto['precio']))
-        c.drawString(500, y, str(producto['resultado']))
+        c.drawString(200, y, producto['talla'])
+        c.drawString(250, y, producto['color'])
+        c.drawString(350, y, str(producto['cantidad']))
+        c.drawString(450, y, str(producto['precio']))
+        c.drawString(550, y, str(producto['resultado']))
         y -= 20
     
     # Total
@@ -251,18 +255,20 @@ def generar_pdf_cliente(cliente):
     
     # Tabla de productos
     c.drawString(50, height - 240, "Nombre de los productos")
-    c.drawString(200, height - 240, "Color")
-    c.drawString(300, height - 240, "Cantidad")
-    c.drawString(400, height - 240, "Precio $")
-    c.drawString(500, height - 240, "Total")
+    c.drawString(200, height - 240, "Talla")
+    c.drawString(250, height - 240, "Color")
+    c.drawString(350, height - 240, "Cantidad")
+    c.drawString(450, height - 240, "Precio $")
+    c.drawString(550, height - 240, "Total")
     
     y = height - 260
     for producto in cliente['productos']:
         c.drawString(50, y, producto['n_producto'])
-        c.drawString(200, y, producto['color'])
-        c.drawString(300, y, str(producto['cantidad']))
-        c.drawString(400, y, str(producto['precio']))
-        c.drawString(500, y, str(producto['resultado']))
+        c.drawString(200, y, producto['talla'])
+        c.drawString(250, y, producto['color'])
+        c.drawString(350, y, str(producto['cantidad']))
+        c.drawString(450, y, str(producto['precio']))
+        c.drawString(550, y, str(producto['resultado']))
         y -= 20
     
     # Total

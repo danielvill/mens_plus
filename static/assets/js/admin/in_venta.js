@@ -46,6 +46,12 @@ document.getElementById('add-product-btn').addEventListener('click', function ()
                 </div>
             </div>
             <div class="col-md-3" hidden>
+                <div class="form-group">
+                    <label>Talla</label>
+                    <input class="form-control tal" name="talla" type="text" readonly required>
+                </div>
+            </div>
+            <div class="col-md-3" hidden>
                 <div class="form-group" >
                     <label>ID Producto</label>
                     <input class="form-control id_producto" name="id_producto" type="text">
@@ -206,6 +212,7 @@ $(document).ready(function () {
         var row = $(this).closest('tr');
         var id_producto = $.trim(row.find('.var1').text());
         var p_nombre = $.trim(row.find('.var2').text());
+        var talla = $.trim(row.find('.tal').text());
         var color = $.trim(row.find('.var3').text());
         var cantidad = $.trim(row.find('.var4').text());
         var precio = $.trim(row.find('.var5').text());
@@ -213,6 +220,7 @@ $(document).ready(function () {
         var productEntry = $('.product-entry[data-id="' + uniqueId + '"]');
         productEntry.find('.id_producto').val(id_producto);
         productEntry.find('.p_nombre').val(p_nombre);
+        productEntry.find('.tal').val(talla);
         productEntry.find('.color').val(color);
         productEntry.find('.cantidad').val(cantidad);
         productEntry.find('.precio').val(precio);

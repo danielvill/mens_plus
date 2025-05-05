@@ -69,6 +69,12 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group" hidden>
+                                        <label>Talla</label>
+                                        <input class="form-control tal" name="talla" type="text" >
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" hidden>
                                         <label>Id_producto</label>
                                         <input class="form-control id_producto" name="id_producto" type="text" >
                                     </div>
@@ -183,6 +189,7 @@
             <tr>
                 <th>Codigo</th>
                 <th>Nombre producto</th>
+                <th>Talla</th>
                 <th>Color</th>
                 <th>Cantidad</th>
                 <th>Precio</th>
@@ -197,6 +204,9 @@
                 </td>
                 <td class="var2">
                     {{producto.nombre}}
+                </td>
+                <td class="tal">
+                    {{producto.talla}}
                 </td>
                 <td class="var3">
                     {{producto.color}}

@@ -33,6 +33,23 @@
                             </input>
                         </div>
                         <div class="form-group">
+                            <label>Talla de la prenda</label>
+                            <select name="talla" id="talla" class="form-control">
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                                <option value="XXL">XXL</option>
+                                <option value="32">32</option>
+                                <option value="34">34</option>
+                                <option value="36">36</option>
+                                <option value="38">38</option>
+                                <option value="40">40</option>
+                                <option value="42">42</option>
+                                <option value="No aplica">No aplica</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label>Precio (debe incluir iva)</label>
                             <input class="form-control" name="precio" id="precio" type="text">
                         </div>
@@ -69,5 +86,4 @@
     <!-- /. PAGE INNER  -->
 </div>
 <script src="/static/assets/js/validaciones/producto.js"></script>
-
 {% endblock %}

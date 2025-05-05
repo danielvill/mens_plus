@@ -47,6 +47,7 @@ def adpro():
         id_producto = str(get_next_sequence('productoId')).zfill(3)
         producto = db["producto"]
         nombre = request.form['nombre']
+        talla = request.form['talla']
         precio = request.form['precio']
         color = request.form['color']
         marca  = request.form['marca']
@@ -72,7 +73,7 @@ def adpro():
                 file.save(file_path)
                 imagen_filename = filename
             
-            produc = Producto(id_producto, nombre, precio, color, imagen_filename, marca,cantidad)
+            produc = Producto(id_producto, nombre, talla,precio, color, imagen_filename, marca,cantidad)
             producto.insert_one(produc.ProductoDBCollection())
             flash("Producto agregado correctamente" , "success")
             return redirect(url_for('producto.adpro'))

@@ -1,5 +1,5 @@
 class Venta:
-    def __init__(self,id_venta,n_cliente,n_apellido,direccion,cedula,fecha,hora,n_productos,color,cantidad,precio,resultado,total,usuario):
+    def __init__(self,id_venta,n_cliente,n_apellido,direccion,cedula,fecha,hora,n_productos,talla,color,cantidad,precio,resultado,total,usuario):
         self.id_venta=id_venta
         self.n_cliente=n_cliente
         self.n_apellido=n_apellido
@@ -8,6 +8,7 @@ class Venta:
         self.fecha=fecha
         self.hora=hora
         self.n_productos=n_productos
+        self.talla=talla
         self.color=color
         self.cantidad=cantidad
         self.precio=precio
@@ -26,6 +27,7 @@ class Venta:
             'fecha': self.fecha,
             'hora': self.hora,
             'n_productos': self.n_productos,
+            'talla': self.talla,
             'color': self.color,
             'cantidad': self.cantidad,
             'precio': self.precio,

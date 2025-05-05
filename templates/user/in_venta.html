@@ -31,7 +31,7 @@
                             <label>cedula</label>
                             <input class="form-control cedula" name="cedula" type="text" readonly required>
                         </div>
-                        
+
                         <div class="form-group">
                             <label>Nombre del cliente</label>
                             <input class="form-control nombre" name="n_cliente" type="text" readonly required>
@@ -44,12 +44,13 @@
                             <label>Direccion</label>
                             <input class="form-control direccion" name="direccion" type="text">
                         </div>
-                        
+
                         <div>
-                            <button type="button" class="but1" style="background-color: #D1574E; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;" >
+                            <button type="button" class="but1"
+                                style="background-color: #D1574E; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
                                 🧑🏼‍🤝‍🧑🏼 Cargar cliente</button>
-                            
-                            
+
+
                         </div>
                         <br>
                         <div class="form-group">
@@ -58,7 +59,7 @@
                         </div>
                         <div class="form-group">
                             <label>Hora</label>
-                            <input class="form-control" name="hora"  id="hora" type="time" readonly>
+                            <input class="form-control" name="hora" id="hora" type="time" readonly>
                         </div>
                         <!-- Esta parte del codigo es para crear varios inputs -->
 
@@ -68,44 +69,50 @@
                                 <div class="col-md-3">
                                     <div class="form-group" hidden>
                                         <label>Producto</label>
-                                        <input class="form-control p_nombre" name="n_productos" type="text" >
+                                        <input class="form-control p_nombre" name="n_productos" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" hidden>
+                                        <label>Talla</label>
+                                        <input class="form-control tal" name="talla" type="text">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group" hidden>
                                         <label>Id_producto</label>
-                                        <input class="form-control id_producto" name="id_producto" type="text" >
+                                        <input class="form-control id_producto" name="id_producto" type="text">
                                     </div>
                                 </div>
 
                                 <div class="col-md-3" hidden>
                                     <div class="form-group product-section">
                                         <label>Color</label>
-                                        <input class="form-control color" name="color" type="text"  >
+                                        <input class="form-control color" name="color" type="text">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group" hidden>
                                         <label>BD</label>
-                                        <input class="form-control cantidad" name="can" type="number" >
+                                        <input class="form-control cantidad" name="can" type="number">
                                     </div>
                                 </div>
                                 <div class="col-md-3" hidden>
                                     <div class="form-group">
                                         <label>Cantidad</label>
-                                        <input class="form-control" name="cantidad" type="number" >
+                                        <input class="form-control" name="cantidad" type="number">
                                     </div>
                                 </div>
                                 <div class="col-md-3" hidden>
                                     <div class="form-group">
                                         <label>Precio</label>
-                                        <input class="form-control precio" name="precio" type="number" >
+                                        <input class="form-control precio" name="precio" type="number">
                                     </div>
                                 </div>
                                 <div class="col-md-3" hidden>
                                     <div class="form-group">
                                         <label>Resultado</label>
-                                        <input class="form-control" name="resultado" type="number" >
+                                        <input class="form-control" name="resultado" type="number">
                                     </div>
                                 </div>
                                 <div class="col-md-3" hidden>
@@ -132,15 +139,20 @@
                             <input class="form-control" name="usuario" type="text" value="{{ usuario }}" readonly>
                         </div>
 
-                        <button type="button" style="background-color: #5CB85C; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;" id="add-product-btn"><i
-                                class="glyphicon glyphicon-plus"></i> Añadir</button>
-                        <button type="submit" style="background-color: #428BCA; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">📦 Guardar</button>
-                        
+                        <button type="button"
+                            style="background-color: #5CB85C; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;"
+                            id="add-product-btn"><i class="glyphicon glyphicon-plus"></i> Añadir</button>
+                        <button type="submit"
+                            style="background-color: #428BCA; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">📦
+                            Guardar</button>
+
                     </form>
                     <br>
                     {% if session.username and not is_admin %}
                     <form action="{{ url_for('cerrar_caja') }}" method="post">
-                        <button type="submit" style="background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;"> 🔒 Cerrar caja</button>
+                        <button type="submit"
+                            style="background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                            🔒 Cerrar caja</button>
                     </form>
                     {% endif %}
                 </div>
@@ -191,6 +203,7 @@
             <tr>
                 <th>Codigo</th>
                 <th>Nombre producto</th>
+                <th>Talla</th>
                 <th>Color</th>
                 <th>Cantidad</th>
                 <th>Precio</th>
@@ -205,6 +218,9 @@
                 </td>
                 <td class="var2">
                     {{producto.nombre}}
+                </td>
+                <td class="tal">
+                    {{producto.talla}}
                 </td>
                 <td class="var3">
                     {{producto.color}}
@@ -233,7 +249,7 @@
         const horas = ahora.getHours().toString().padStart(2, '0');
         const minutos = ahora.getMinutes().toString().padStart(2, '0');
         const horaActual = `${horas}:${minutos}`;
-        
+
         // Asignar la hora actual al campo de entrada
         horaInput.value = horaActual;
     }
@@ -243,17 +259,17 @@
 </script>
 
 <script>
-        $(document).ready(function() {
-    // Obtener la fecha actual de la persona 
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //Enero es 0!
-    var yyyy = today.getFullYear();
+    $(document).ready(function () {
+        // Obtener la fecha actual de la persona 
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //Enero es 0!
+        var yyyy = today.getFullYear();
 
-    today = yyyy + '-' + mm + '-' + dd;
-    document.getElementById("fecha").setAttribute("min", today);
-    document.getElementById("fecha").setAttribute("max", today);
-});
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("fecha").setAttribute("min", today);
+        document.getElementById("fecha").setAttribute("max", today);
+    });
 </script>
 <script src="/static/assets/js/admin/in_venta.js"></script>
 {% endblock %}

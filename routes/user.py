@@ -115,6 +115,7 @@ def usventa():
         # Recoger los productos
         id_productos = request.form.getlist("id_producto")
         n_productos = request.form.getlist("n_productos")
+        talla = request.form.getlist("talla")
         colores = request.form.getlist("color")
         cantidades = request.form.getlist("cantidad")
         precios = request.form.getlist("precio")
@@ -128,6 +129,7 @@ def usventa():
             producto = {
                 "id_producto": id_productos[i] if i < len(id_productos) else '',
                 "n_producto": n_productos[i] if i < len(n_productos) else '',
+                "talla": talla[i] if i < len(talla) else '',
                 "color": colores[i] if i < len(colores) else '',
                 "cantidad": cantidades[i] if i < len(cantidades) else '',
                 "precio": precios[i] if i < len(precios) else '',
