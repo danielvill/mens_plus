@@ -14,7 +14,7 @@
                     <div class="main-box mb-red">
                         <a href="#">
                             <i class="bi bi-person-arms-up fa-5x"></i>
-                            <h5>Clientes : {{ total_clientes }}</h5>
+                            <h5>Cantidad de clientes : {{ total_clientes }}</h5>
                         </a>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                     <div class="main-box mb-dull">
                         <a href="#">
                             <i class="bi bi-shop-window fa-5x"></i>
-                            <h5>Productos : {{ total_productos }}</h5>
+                            <h5>Cantidad de productos : {{ total_productos }}</h5>
                         </a>
                     </div>
                 </div>
@@ -30,10 +30,11 @@
                     <div class="main-box mb-pink">
                         <a href="#">
                             <i class="bi bi-currency-dollar fa-5x"></i>
-                            <h5>Ventas : {{ total_ventas or 0 }} </h5>
+                            <h3 class="card-text">Ventas del día {{ total_ventas_diarias  }}</h3>
                         </a>
                     </div>
                 </div>
+                
 
             </div>
             

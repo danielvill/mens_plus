@@ -161,18 +161,53 @@ def resumen():
         flash("Inicia sesion con tu usuario y contraseña")
         return redirect(url_for('producto.index'))
     
-    # Contar registros en cada coleccion para saber el total
+    # Contar registros en cada coleccion
     total_clientes = db['cliente'].count_documents({})
     total_productos = db['producto'].count_documents({})
-    total_ventas = db['venta'].count_documents({})
+    
+    # Obtener la fecha actual en formato YYYY-MM-DD
+    from datetime import datetime
+    fecha_actual = datetime.now().strftime("%Y-%m-%d")
+    
+    # Filtrar ventas por la fecha actual
+    ventas_del_dia = list(db['venta'].find({"fecha": fecha_actual}))
+    
+    # Calcular el total de ventas del día
+    total_ventas_diarias = 0
+    
+    for venta in ventas_del_dia:
+        # Verificar si existe el array "productos" y tiene al menos un elemento con "total"
+        if "productos" in venta and venta["productos"] and len(venta["productos"]) > 0:
+            if "total" in venta["productos"][0] and venta["productos"][0]["total"]:
+                try:
+                    total_ventas_diarias += float(venta["productos"][0]["total"])
+                except (ValueError, TypeError):
+                    # Registrar el error para diagnóstico
+                    print(f"Error al convertir total en venta {venta.get('id_venta', 'unknown')}")
+    
+    # Para diagnóstico: imprimir el total y las ventas encontradas
+    print(f"Fecha actual: {fecha_actual}")
+    print(f"Ventas encontradas hoy: {len(ventas_del_dia)}")
+    print(f"Total calculado: {total_ventas_diarias}")
+    
+    # Reiniciar cursores para la plantilla
     producto = db["producto"].find()
     venta = db["venta"].find()
     venta2 = db["venta"].find()
     
+    # Contar el número total de ventas (para referencia)
+    total_ventas = db['venta'].count_documents({})
+    
+    # También vamos a agregar un conteo de ventas del día
+    conteo_ventas_dia = len(ventas_del_dia)
+    
     return render_template('admin/resumen.html', 
-                            total_clientes=total_clientes,
-                            total_productos=total_productos,
-                            total_ventas=total_ventas,
-                            producto=producto,
-                            venta=venta,
-                            venta2=venta2)
+                        total_clientes=total_clientes,
+                        total_productos=total_productos,
+                        total_ventas=total_ventas,
+                        total_ventas_diarias=total_ventas_diarias,
+                        conteo_ventas_dia=conteo_ventas_dia,
+                        producto=producto,
+                        venta=venta,
+                        venta2=venta2,
+                        fecha_actual=fecha_actual)

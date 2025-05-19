@@ -169,6 +169,7 @@ $(document).ready(function () {
         $('.mosecliente').dialog({
             title: "Seleccionar Cliente",
             width: 500,
+            
             modal: true
         });
     });
@@ -201,7 +202,8 @@ $(document).ready(function () {
         var uniqueId = $(this).data('id');
         $('.moseproducto').data('unique-id', uniqueId).dialog({
             title: "Seleccionar Producto",
-            width: 500,
+            width: 700,
+            height: 500,
             modal: true
         });
     });

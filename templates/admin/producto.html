@@ -25,6 +25,7 @@
                         <th>Precio</th>
                         <th>Color</th>
                         <th>Imagen</th>
+                        <th>Talla</th>
                         <th>Marca</th>
                         <th>Cantidad</th>
                         <th>Acciones</th>
@@ -50,6 +51,9 @@
                             <img src="{{ url_for('static', filename='assets/img/' + producto.imagen) }}" alt="Imagen de herramienta" width="50">
                             
                         </td>    
+                        <td>
+                            {{producto.talla}}
+                        </td>
                         <td>
                             {{producto.marca}}
                         </td>                    
